@@ -14,7 +14,40 @@ var port = process.env.PORT || config.dev.port
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
 
-var app = express()
+var app = express();
+
+var appData = require("../data.json"); // 获取测试数据源
+// 将 测试数据 三大部分 分开传入 不同的变量中
+var seller = appData.seller;  
+var goods = appData.goods;
+var ratings = appData.ratings; 
+
+// 根据以上的数据，编写数据路由：
+var apiRoutes = express.Router(); // 调用 express.Router() 接口创建路由对象
+apiRoutes.get("/seller",function(req,res){  // 
+  res.json({
+      error:0,
+      data:seller
+  })
+})
+
+apiRoutes.get("/goods",function(req,res){
+  res.json({
+      error:0,
+      data:goods
+  })
+})
+
+apiRoutes.get("/ratings",function(req,res){
+  res.json({
+      error:0,
+      data:ratings
+  })
+})
+
+app.use("/api",apiRoutes); // 启用数据路由器
+
+
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {

@@ -36,19 +36,20 @@ module.exports = {
   },
   module: {
     // preLoaders 会在 loader 之前 处理， 优先处理 vue 和 es6 js
-    preLoaders: [
-      {
+    preLoaders: [ 
+    // 此处的preLoaders 用“eslint-loader”对js/vue代码进行默认格式预检测，开发过程中占时不需要。否则会经常导致因为空格和换行有报错
+      /*{  不做预解析处理
         test: /\.vue$/,
         loader: 'eslint',
         include: projectRoot,
         exclude: /node_modules/
       },
-      {
+      {    不做预解析处理
         test: /\.js$/,
         loader: 'eslint',
         include: projectRoot,
         exclude: /node_modules/
-      }
+      }*/
     ],
     loaders: [
       {
@@ -83,10 +84,10 @@ module.exports = {
       }
     ]
   },
-  // 配置eslint， 当检查到语法错误时，会提示友好语法错误信息提示
-  eslint: {
+  // 配置eslint， 当检查到语法错误时，会提示友好语法错误信息提示（eslint 在preloader中使用，开发过程先禁用）
+  /*eslint: {  
     formatter: require('eslint-friendly-formatter')
-  },
+  },*/
   vue: {
     // 在此处配置 cssLoader 解析 vue 文件内的额css
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
