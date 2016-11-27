@@ -1,19 +1,25 @@
 import Vue from 'vue'
 
-import VueRouter from "vue-router"
+import router from './router.js'
 
-import App from './App'
+import App from './App.vue'
 
-
-Vue.use(VueRouter);
-
-
+import 'common/stylus/index.styl'
 
 
 /* “eslint-disable no-new” 此注释为当使用“eslint”进行格式检测时，允许直接用 “new”来创建对象，而无需付给某个变量*/
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  template: '<App/>',
-  components: { App }
-})
+  router:router,
+  render:h=>h(App,{}),
+  mounted:()=>{
+  	router.push({"path":"/sells"})
+  }
+  
+}).$mount("#app")
+
+// 使用路由时 App组件的注册方式
+/*new Vue({
+	//router:router, 
+	render:h=>(App), 
+}).$mount("#app");*/
