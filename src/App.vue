@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-      <v-header></v-header>
+      <v-header v-bind:seller=seller></v-header>
       <div class="tab border-1px">
         <div class="tab-item">
-            <router-link to="/sells">销售</router-link>
+            <router-link to="/seller">销售</router-link>
         </div>
         <div class="tab-item">
             <router-link to="/ratings">评论</router-link>
@@ -16,25 +16,36 @@
         <router-view> </router-view>
       </div>
   </div>
-  
+
 </template>
 
 <script type="text/ecmascript-6">
 import vHeader from "./components/header/header.vue"
-
+const ERR_OK = 0
 export default {
   name: 'app',
+  data() {
+    return {
+      seller:{}
+    }
+  },
   components:{
     vHeader
+  },
+  mounted() {
+    this.$http.get('/api/seller').then((response) => {
+      this.seller=response.body.data;
+      console.log(this.seller);
+    })
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "common/stylus/mixin.styl"
+  @import "./common/stylus/mixin.styl"
   .tab
     display:flex
-    display:-webkit-flex 
+    display:-webkit-flex
     width:100%
     height:40px
     line-height:40px
@@ -48,5 +59,5 @@ export default {
         font-size:14px
         color:rgb(77,85,93)
         &.active
-            color: rgb(240,20,20)  
+            color: rgb(240,20,20)
 </style>
