@@ -16,7 +16,7 @@
                 <span v-bind:class="iconClass[seller.supports[0].type]"></span>
                 <span>{{seller.supports[0].description}}</span>
             </div>
-            <div class="more" v-if="seller.supports" >
+            <div class="more" v-if="seller.supports" v-on:click="popShow=!popShow">
                 {{seller.supports.length}}个<i class="icon-play3"></i>
             </div>
         </div>
@@ -27,8 +27,24 @@
     <div class="backcover">
         <img v-bind:src="seller.avatar">
     </div>
-    <div class="module">
+    <div class="pop-module" v-show="popShow">
+        <div class="detail-wrapper clearfix">
+            <div class="detail-main">
 
+                <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+                 <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+                <p>AAAAAAAA</p>
+            </div>
+
+        </div>
+        <div class="detail-close">
+            <i class="icon-cross"></i>
+        </div>
     </div>
   </div>
 </template>
@@ -40,6 +56,7 @@ export default {
   name: 'vHeader',
   data(){
     return {
+        popShow:false,
         prefType:0,
         iconClass:["decrease","discount","guarantee","invoice"]
     }
@@ -183,14 +200,27 @@ export default {
             width:100%
             height:100%
             filter:blur(5px)
-    .module
+    .pop-module
         position:fixed
-        display:none
         left:0
         top:0
         width:100%
         height:100%
-        background:red
+        background:rgba(2,34,59,0.8)
         z-Index:100
+        overflow:auto
+        .detail-wrapper
+            min-height:100%
+            .detail-main
+                margin-top:64px
+                padding-bottom:64px
+                width:100%
+        .detail-close
+            position:relative
+            width:32px
+            height:32px;
+            margin:-40px auto 0 auto
+            clear:both
+            font-size:16px
 </style>
 /**/
