@@ -29,18 +29,22 @@
     </div>
     <div class="pop-module" v-show="popShow">
         <div class="detail-wrapper clearfix">
-            <div class="detail-main">
-
-                <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
-                 <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
-                <p>AAAAAAAA</p>
+            <div class="detail-main"> 
+                <h1 class="store-title">{{seller.name}}</h1>
+                <div class="start"></div>
+                <div class="coupon">
+                    <h3>优惠信息</h3>
+                    <ul>
+                        <li v-for="item in seller.supports">
+                            <span v-bind:class="iconClass[item.type]"></span>
+                            {{item.description}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="bulletin">
+                    {{ seller.bulletin }}
+                </div>
             </div>
-
         </div>
         <div class="detail-close">
             <i class="icon-cross"></i>
@@ -82,7 +86,6 @@ export default {
         padding:24px 12px 18px 24px
         font-size:0
         position:relative;
-
         .avatar
             display:inline-block
             vertical-align:top
@@ -94,7 +97,6 @@ export default {
             height:100%
             margin-left:16px
             font-size:12px
-
             .title
                 height:16px
                 margin-bottom:10px
@@ -166,7 +168,6 @@ export default {
         box-sizing:border-box
         padding:0 12px
         background:rgba(0,0,0,0.4)
-
         &>span
             display:inline-block
             width:95%
@@ -206,15 +207,69 @@ export default {
         top:0
         width:100%
         height:100%
-        background:rgba(2,34,59,0.8)
+        background:rgba(2,34,59,1)
         z-Index:100
         overflow:auto
         .detail-wrapper
             min-height:100%
+            box-sizing:border-box
+            padding:0 36px 
             .detail-main
                 margin-top:64px
                 padding-bottom:64px
-                width:100%
+                width:100%                
+                .store-title
+                    width:100%
+                    text-align:center 
+                    font-size:16px
+                    font-weight:700
+                    color:rgba(255,255,255,1)
+                    line-height:16px
+                .start
+                    width:100%
+                    height:24px
+                    margin-top:16px
+                    margin-bottom:28px
+                    background:red
+                .coupon
+                    width:100%
+                    border-top:1px solid rgba(255,255,255,0.2)
+                    box-sizing:border-box
+                    padding:24px 12px 28px 12px
+                    position:relative
+                    &>h3
+                        position:absolute
+                        display:inline-block
+                        padding:0 12px
+                        height:14px
+                        left:50% 
+                        top:-6px
+                        margin-left:-40px
+                        color:white
+                        font-size:14px
+                        font-weight:700
+                        line-height:14px
+                        background:rgba(2,34,59,1) 
+                    &>ul>li
+                        font-size:12px 
+                        font-weight:200
+                        line-height:24px   
+                        &>span
+                            display:inline-block
+                            width:12px
+                            height:12px
+                            vertical-align:top
+                            background:no-repeat
+                            background-size:12px 12px
+                            margin-right:5px
+                            &.decrease
+                                bg-image("decrease_2")
+                            &.discount
+                                bg-image("discount_2")
+                            &.guarantee
+                                bg-image("guarantee_2")
+                            &.invoice
+                                bg-image("invoice_2")    
         .detail-close
             position:relative
             width:32px
@@ -223,4 +278,3 @@ export default {
             clear:both
             font-size:16px
 </style>
-/**/
