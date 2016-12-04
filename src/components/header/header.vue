@@ -31,26 +31,27 @@
         <div class="detail-wrapper clearfix">
             <div class="detail-main"> 
                 <h1 class="store-title">{{seller.name}}</h1>
-                <star v-bind:score="seller.score" v-bind:size="48" ></star>
-                 
-                
-                 
-                <div class="coupon">
-                    <!-- <h3>优惠信息{{seller.score}}</h3> -->
-                    
-                    <!-- <ul>
+                <star v-bind:score="seller.score" v-bind:size="48" ></star> 
+                <div class="group coupon-info">
+                    <div class="group-title">
+                        <span></span> <h3>优惠信息</h3> <span></span>
+                    </div>
+                    <ul class="info-list">
                         <li v-for="item in seller.supports">
                             <span v-bind:class="iconClass[item.type]"></span>
                             {{item.description}}
                         </li>
-                    </ul> -->
+                    </ul>
                 </div>
-                <!-- <div class="bulletin">
-                    {{ seller.bulletin }}
-                </div> -->
+                <div class="group bulletin">
+                    <div class="group-title">
+                        <span></span> <h3>商家公告</h3> <span></span>
+                    </div>
+                    <p>{{ seller.bulletin }}</p>
+                </div>
             </div>
         </div>
-        <div class="detail-close">
+        <div class="detail-close" v-on:click="popShow=!popShow">
             <i class="icon-cross"></i>
         </div>
     </div>
@@ -66,7 +67,7 @@ export default {
     return {
         popShow:false,
         prefType:0,
-        iconClass:["decrease","discount","guarantee","invoice"]
+        iconClass:["decrease","discount","guarantee","invoice","special"]
     }
   },
   props:{
@@ -147,6 +148,8 @@ export default {
                         bg-image("guarantee_2")
                     &.invoice
                         bg-image("invoice_2")
+                    &.special
+                        bg-image("special_2")  
                 &>span:nth-of-type(2)
                     font-size:12px
                     color:rgb(255,255,255)
@@ -232,8 +235,61 @@ export default {
                     font-weight:700
                     color:rgba(255,255,255,1)
                     line-height:16px
-               
-                 
+                .group
+                    width:100%
+                    padding:0 12px
+                    margin-bottom:28px
+                .group-title
+                    position:relative
+                    text-align:center
+                    margin-bottom:12px
+                    &>h3
+                        line-height:30px
+                        font-size:18px
+                    &>span
+                        display:inline-block
+                        position:absolute
+                        width:35%
+                        height:2px
+                        margin-top:-1px
+                        background:white
+                        &:nth-of-type(1)
+                            left:0
+                            top:50%
+                        &:nth-of-type(2)
+                            right:0
+                            top:50%
+                .coupon-info
+                    .info-list  
+                        &>li
+                            line-height:12px
+                            font-size:12px
+                            color:rgba(255,255,255,1) 
+                            margin-bottom:12px           
+                            &>span
+                                display:inline-block
+                                width:12px
+                                height:12px
+                                vertical-align:top
+                                background:no-repeat
+                                background-size:12px 12px
+                                margin-right:5px
+                                &.decrease
+                                    bg-image("decrease_2")
+                                &.discount
+                                    bg-image("discount_2")
+                                &.guarantee
+                                    bg-image("guarantee_2")
+                                &.invoice
+                                    bg-image("invoice_2")
+                                &.special
+                                    bg-image("special_2")   
+                .bulletin
+                    &>p 
+                        line-height:24px
+                        font-size:12px
+                        color:white
+                    
         .detail-close
             position:relative
             width:32px

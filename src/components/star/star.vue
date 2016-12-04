@@ -53,7 +53,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
 @import "../../common/stylus/mixin.styl"
 .star
-	margin:10px auto
+	margin:20px auto
 	text-align:center
 	&.star-48
 		.star-item
