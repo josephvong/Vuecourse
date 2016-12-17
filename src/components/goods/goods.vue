@@ -1,6 +1,6 @@
 <template>
   <div class="goods"> 
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="leftList">
     	<ul class="food-menu" >
 			<li v-for="item in goods" class="menu-item">
 				<span> 
@@ -9,12 +9,12 @@
 			</li> 
     	</ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper"  ref="rightList">
     	<ul >
     		<li v-for="item in goods" class="food-list">
     			<h1 class="title">{{item.name}}</h1>
     			<ul>
-					<li v-for="food in item.foods" class="food-item border-1px">
+					<li v-for="food in item.foods" class="food-item border-1px" ref="foodItem">
 						<div class="icon">
 							<img v-bind:src="food.icon"/>
 						</div>
@@ -45,6 +45,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import BScroll from "better-scroll"
 export default {
   name: 'goods',
   props:{
@@ -55,14 +56,37 @@ export default {
   data(){
   	return {
   		goods:[],
-  		iconClass:["decrease","discount","guarantee","invoice","special"]
+  		iconClass:["decrease","discount","guarantee","invoice","special"],
+  		
+  	}
+  },
+  methods: {
+  	initScroll() {
+  		console.log(this.$refs);
+  		this.leftScroll= new BScroll(this.$refs.leftList,{});
+  		//this.rightScroll=new BScroll(this.$refs.rightList,{});
+  	},
+  	getItemHeight(){
+  		let foodItems=this.$refs.foodItem;
+  		let itemH=0;
+  		let foodHeight=[]
+  		//console.log(foodItems);
+  		for (var i = 0; i<=foodItems.length; i++) {
+  			console.log(foodItems[i])
+  			
+  		}
+  		//console.log(foodHeight);
   	}
   },
   mounted(){
   	this.$http.get("/api/goods").then((response)=>{
   		response= response.body
   		this.goods=response.data;
-  		console.log(response);
+  		//console.log(response);
+  		this.$nextTick(function(){ 
+  			this.initScroll();
+  			this.getItemHeight(); 
+  		})
   	})
   }
 }
@@ -80,7 +104,7 @@ export default {
 		.menu-wrapper
 			flex: 0 0 80px
 			width: 80px
-			overflow-y:scroll 
+			// overflow-y:scroll 
 			.menu-item 
 				display: table 
 				padding: 0 12px
@@ -115,7 +139,7 @@ export default {
 							bg-image("special_2")
 		.foods-wrapper
 			flex: 1
-			overflow-y:scroll
+			// overflow-y:scroll
 			.food-list
 				h1
 					border-left:3px solid #d9dde1
