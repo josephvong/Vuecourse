@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="leftList">
     	<ul class="food-menu" >
-			<li v-for="item in goods" class="menu-item active">
+			<li v-for="(item,index) in goods" class="menu-item" v-bind:class="{active:index==activeIndex}" v-bind:index="index" v-on:click="indexAlert($event)" >
 				<span>
 					 <em v-show="item.type>0" v-bind:class="iconClass[item.type]"></em>{{item.name}}
 				</span>
@@ -55,14 +55,14 @@ export default {
   	return {
   		goods:[],
   		iconClass:["decrease","discount","guarantee","invoice","special"],
-
+  		activeIndex:0
   	}
   },
   methods: {
   	initScroll() {
   		//console.log(this.$refs);
-  		this.leftScroll= new BScroll(this.$refs.leftList,{});
-  		this.rightScroll=new BScroll(this.$refs.rightList,{});
+  		this.leftScroll= new BScroll(this.$refs.leftList,{click: true});
+  		this.rightScroll=new BScroll(this.$refs.rightList,{click: true});
   	},
   	getItemHeight(){
   		let foodItems=this.$refs.foodItem;
@@ -73,7 +73,9 @@ export default {
             itemH+=foodItems[i].clientHeight
         }
         console.log(foodHeight);
-
+  	},
+  	indexAlert:function(event){ 
+  		this.activeIndex=parseInt(event.currentTarget.getAttribute("index"));
   	}
   },
   mounted(){
@@ -82,8 +84,9 @@ export default {
   		this.goods=response.data;
   		//console.log(response);
   		this.$nextTick(function(){
-  			//this.initScroll();
+  			this.initScroll();
   			//this.getItemHeight();
+  			//this.greet();
   		})
   	})
   }
@@ -108,6 +111,8 @@ export default {
     			width: 100%
     			box-sizing: border-box
     			height: 54px
+    			&.active
+    				background:red
     			&>span
     				display: table-cell
     				vertical-align: middle
