@@ -2,19 +2,19 @@
   <div class="goods">
     <div class="menu-wrapper" ref="leftList">
     	<ul class="food-menu" >
-			<li v-for="(item,index) in goods" class="menu-item" v-bind:class="{active:index==activeIndex}" v-bind:index="index" v-on:click="indexAlert($event)" >
+			<li v-for="(item,index) in goods" class="menu-item" v-bind:class="{active:index==activeIndex}" v-bind:index="index" v-on:click="indexAlert($event)">
 				<span>
 					 <em v-show="item.type>0" v-bind:class="iconClass[item.type]"></em>{{item.name}}
 				</span>
 			</li>
     	</ul>
     </div>
-    <div class="foods-wrapper"  ref="rightList">
+    <div class="foods-wrapper"  ref="rightList" v-on:scroll>
     	<ul >
-    		<li v-for="item in goods" class="food-list">
+    		<li v-for="item in goods" class="food-list" ref="foodList">
     			<h1 class="title">{{item.name}}</h1>
     			<ul>
-					<li v-for="food in item.foods" class="food-item border-1px" ref="foodItem">
+					<li v-for="food in item.foods" class="food-item border-1px" >
 						<div class="icon">
 							<img v-bind:src="food.icon"/>
 						</div>
@@ -55,27 +55,62 @@ export default {
   	return {
   		goods:[],
   		iconClass:["decrease","discount","guarantee","invoice","special"],
-  		activeIndex:0
+  		//activeIndex:0,
+  		listHeight:[],
+  		rightSclTop:0,
+
   	}
+  },
+  computed:{
+  		activeIndex(){
+  			for (let i=0 ; i<this.listHeight.length; i++){
+  				let height1= this.listHeight[i];
+  				let height2= this.listHeight[i+1];
+  				if (!height2 || (this.rightSclTop>=height1 && this.rightSclTop<height2)) {
+  					return i;
+  				}
+  			}
+  			return 0;
+  		}
   },
   methods: {
   	initScroll() {
   		//console.log(this.$refs);
-  		this.leftScroll= new BScroll(this.$refs.leftList,{click: true});
-  		this.rightScroll=new BScroll(this.$refs.rightList,{click: true});
+  		this.leftScroll= new BScroll(this.$refs.leftList,{ 
+  			click: true,
+  			useTransition:true
+  		});
+  		this.rightScroll=new BScroll(this.$refs.rightList,{
+  			probeType: 3,
+  			click: true,
+  			useTransition:true,
+  			momentum: true
+  		});
+
+  		this.rightScroll.on("scroll",(pos)=>{
+  			this.rightSclTop=Math.abs(Math.round(pos.y)); 
+  			
+  		})
   	},
-  	getItemHeight(){
-  		let foodItems=this.$refs.foodItem;
+  	getListHeight(){
+  		let foodList=this.$refs.foodList;
   		let itemH=0;
   		let foodHeight=[];
-        for(var i=0; i<foodItems.length;i++){
+        for(let i=0; i<foodList.length;i++){
             foodHeight.push(itemH);
-            itemH+=foodItems[i].clientHeight
-        }
-        console.log(foodHeight);
+            itemH+=foodList[i].clientHeight
+        } 
+        this.listHeight=foodHeight;
+        //console.log(this.listHeight);
   	},
   	indexAlert:function(event){ 
-  		this.activeIndex=parseInt(event.currentTarget.getAttribute("index"));
+  		if(!event._constructed){
+  			return;
+  		}
+  		let clickIndex=parseInt(event.currentTarget.getAttribute("index")); 
+  		//this.activeIndex=clickIndex;
+  		 
+  		this.rightScroll.scrollTo(0, -this.listHeight[clickIndex],300)
   	}
   },
   mounted(){
@@ -85,7 +120,7 @@ export default {
   		//console.log(response);
   		this.$nextTick(function(){
   			this.initScroll();
-  			//this.getItemHeight();
+  			this.getListHeight();
   			//this.greet();
   		})
   	})
@@ -105,6 +140,7 @@ export default {
     	.menu-wrapper
     		flex: 0 0 80px
     		width: 80px
+    		background:#F4F5F7
     		.menu-item
     			display: table
     			padding: 0 12px
@@ -112,7 +148,7 @@ export default {
     			box-sizing: border-box
     			height: 54px
     			&.active
-    				background:red
+    				background:white
     			&>span
     				display: table-cell
     				vertical-align: middle
