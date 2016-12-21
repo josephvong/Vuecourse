@@ -39,11 +39,13 @@
     		</li>
 		</ul>
     </div>
+    <shopcart></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll"
+import shopcart from "components/shopcart/shopcart.vue"
 export default {
   name: 'goods',
   props:{
@@ -58,7 +60,6 @@ export default {
   		//activeIndex:0,
   		listHeight:[],
   		rightSclTop:0,
-
   	}
   },
   computed:{
@@ -75,7 +76,6 @@ export default {
   },
   methods: {
   	initScroll() {
-  		//console.log(this.$refs);
   		this.leftScroll= new BScroll(this.$refs.leftList,{ 
   			click: true,
   			useTransition:true
@@ -89,7 +89,6 @@ export default {
 
   		this.rightScroll.on("scroll",(pos)=>{
   			this.rightSclTop=Math.abs(Math.round(pos.y)); 
-  			
   		})
   	},
   	getListHeight(){
@@ -103,14 +102,16 @@ export default {
         this.listHeight=foodHeight;
         //console.log(this.listHeight);
   	},
-  	indexAlert:function(event){ 
+  	indexAlert:function(event){  // 左边点击事件
   		if(!event._constructed){
   			return;
   		}
-  		let clickIndex=parseInt(event.currentTarget.getAttribute("index")); 
-  		//this.activeIndex=clickIndex;
-  		 
-  		this.rightScroll.scrollTo(0, -this.listHeight[clickIndex],300)
+  		let foodList = this.$refs.foodList;
+  		let clickIndex=parseInt(event.currentTarget.getAttribute("index"));
+  		let targetE=foodList[clickIndex];
+  		this.rightSclTop=this.listHeight[clickIndex];
+  		//this.rightScroll.scrollTo(0, -this.listHeight[clickIndex],200)
+  		this.rightScroll.scrollToElement(targetE,300)
   	}
   },
   mounted(){
@@ -124,6 +125,9 @@ export default {
   			//this.greet();
   		})
   	})
+  },
+  components:{
+  	shopcart:shopcart
   }
 }
 </script>
