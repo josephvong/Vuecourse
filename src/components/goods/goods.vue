@@ -39,7 +39,11 @@
     		</li>
 		</ul>
     </div>
-    <shopcart></shopcart>
+    <shopcart 
+    	v-bind:delivery-price=seller.deliveryPrice 
+    	v-bind:min-price=seller.minPrice
+    	v-bind:selected-food=selectedFood
+    ></shopcart>
   </div>
 </template>
 
@@ -57,9 +61,25 @@ export default {
   	return {
   		goods:[],
   		iconClass:["decrease","discount","guarantee","invoice","special"],
-  		//activeIndex:0,
   		listHeight:[],
   		rightSclTop:0,
+  		selectedFood:[
+  			/*{
+  				name:"皮蛋瘦肉粥",
+  				price:10,
+  				count:2
+  			},
+  			{
+  				name:"花生粥",
+  				price:4,
+  				count:2
+  			},*/
+  			{
+  				name:"薏米粥",
+  				price:3.5,
+  				count:5
+  			}
+  		]
   	}
   },
   computed:{
@@ -72,7 +92,8 @@ export default {
   				}
   			}
   			return 0;
-  		}
+  		},
+
   },
   methods: {
   	initScroll() {
@@ -109,8 +130,7 @@ export default {
   		let foodList = this.$refs.foodList;
   		let clickIndex=parseInt(event.currentTarget.getAttribute("index"));
   		let targetE=foodList[clickIndex];
-  		this.rightSclTop=this.listHeight[clickIndex];
-  		//this.rightScroll.scrollTo(0, -this.listHeight[clickIndex],200)
+  		this.rightSclTop=this.listHeight[clickIndex]; 
   		this.rightScroll.scrollToElement(targetE,300)
   	}
   },

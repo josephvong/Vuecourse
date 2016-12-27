@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="content">
-        <router-view> </router-view>
+        <router-view v-bind:seller="seller"> </router-view>
       </div>
   </div>
 
