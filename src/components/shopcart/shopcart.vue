@@ -36,7 +36,7 @@ export default {
   				{price:10,count:1}
   			]
   		}
-  	},
+  	}, 
   	deliveryPrice:{
   		type:Number,
   		default:0

@@ -33,6 +33,9 @@
 									￥{{food.oldPrice}}
 								</span>
 							</div>
+							<div class="control-wrapper">
+								<cartcontrol></cartcontrol>
+							</div>
 						</div>
 					</li>
     			</ul>
@@ -50,6 +53,7 @@
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll"
 import shopcart from "components/shopcart/shopcart.vue"
+import cartcontrol from "components/cartcontrol/cartcontrol.vue"
 export default {
   name: 'goods',
   props:{
@@ -147,7 +151,8 @@ export default {
   	})
   },
   components:{
-  	shopcart:shopcart
+  	shopcart:shopcart,
+  	cartcontrol:cartcontrol
   }
 }
 </script>
@@ -178,8 +183,7 @@ export default {
     				vertical-align: middle
     				font-size: 12px
     				font-weight: 200
-    				line-height: 16px
-
+    				line-height: 16px 
     				&>em
     					display: inline-block
     					width: 12px
@@ -199,9 +203,7 @@ export default {
     					&.invoice
     						bg-image("invoice_2")
     					&.special
-    						bg-image("special_2")
-
-
+    						bg-image("special_2") 
     	.foods-wrapper
     		flex: 1
     		// overflow-y:scroll
@@ -255,7 +257,12 @@ export default {
     						color: gray
     						vertical-align: top
     						text-decoration: line-through
-
+					.control-wrapper
+						position:absolute
+						height:20px
+						width:60px
+						bottom:18px
+						right:18px
 
 
 
