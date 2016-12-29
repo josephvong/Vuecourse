@@ -34,7 +34,7 @@
 								</span>
 							</div>
 							<div class="control-wrapper">
-								<cartcontrol></cartcontrol>
+								<cartcontrol v-bind:foodObj=food ></cartcontrol>
 							</div>
 						</div>
 					</li>
@@ -68,16 +68,6 @@ export default {
   		listHeight:[],
   		rightSclTop:0,
   		selectedFood:[
-  			/*{
-  				name:"皮蛋瘦肉粥",
-  				price:10,
-  				count:2
-  			},
-  			{
-  				name:"花生粥",
-  				price:4,
-  				count:2
-  			},*/
   			{
   				name:"薏米粥",
   				price:3.5,
