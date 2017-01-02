@@ -42,11 +42,9 @@
     		</li>
 		</ul>
     </div>
-    <shopcart 
-    	v-bind:delivery-price=seller.deliveryPrice 
-    	v-bind:min-price=seller.minPrice
-    	v-bind:selected-food=selectedFood
-    ></shopcart>
+    <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
+    > 
+    </shopcart>
   </div>
 </template>
 
@@ -67,13 +65,6 @@ export default {
   		iconClass:["decrease","discount","guarantee","invoice","special"],
   		listHeight:[],
   		rightSclTop:0,
-  		selectedFood:[
-  			{
-  				name:"薏米粥",
-  				price:3.5,
-  				count:5
-  			}
-  		]
   	}
   },
   computed:{
@@ -87,6 +78,17 @@ export default {
   			}
   			return 0;
   		},
+  		selectedFoods(){
+  			let selFoods=[];
+  			this.goods.forEach((good)=>{
+  				good.foods.forEach((food)=>{
+  					if(food.count){
+  						selFoods.push(food);
+  					}
+  				})
+  			})
+  			return selFoods
+  		}
 
   },
   methods: {
@@ -131,12 +133,10 @@ export default {
   mounted(){
   	this.$http.get("/api/goods").then((response)=>{
   		response= response.body
-  		this.goods=response.data;
-  		//console.log(response);
+  		this.goods=response.data; 
   		this.$nextTick(function(){
   			this.initScroll();
-  			this.getListHeight();
-  			//this.greet();
+  			this.getListHeight(); 
   		})
   	})
   },
@@ -252,8 +252,8 @@ export default {
 						height:20px
 						width:60px
 						bottom:18px
-						right:18px
-
+						right:18px 
+		
 
 
 

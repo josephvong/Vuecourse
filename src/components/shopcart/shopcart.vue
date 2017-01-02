@@ -1,6 +1,6 @@
 <template>
   <div class="shopcart">
-      <div class="content">
+       <div class="content">
       	<div class="content-left">
       		<div class="logo-wrapper">
       			<div class="logo" v-bind:class="{active:totalCount>0}">
@@ -29,7 +29,7 @@
 export default {
   name: 'shopcart',
   props:{
-  	selectedFood:{
+  	selectedFoods:{
   		type:Array,
   		default:function(){
   			return [
@@ -50,15 +50,15 @@ export default {
   computed:{
   	totalPrice(){
 		let tPrice=0;
-		for(let i=0;i<this.selectedFood.length;i++){
-			tPrice+=this.selectedFood[i].price*this.selectedFood[i].count
+		for(let i=0;i<this.selectedFoods.length;i++){
+			tPrice+=this.selectedFoods[i].price*this.selectedFoods[i].count
 		}
 		return tPrice
 	},
 	totalCount(){
 		let tCount=0;
-		for(let i=0;i<this.selectedFood.length; i++){
-			tCount+=this.selectedFood[i].count
+		for(let i=0;i<this.selectedFoods.length; i++){
+			tCount+=this.selectedFoods[i].count
 		}
 		return tCount	
 	},
@@ -90,7 +90,7 @@ export default {
 		position:fixed
 		height:48px 
 		width:100%
-		bottom:0
+		bottom:0px
 		z-index:50
 		.content
 			display:flex
