@@ -42,9 +42,12 @@
     		</li>
 		</ul>
     </div>
+    <!-- <div class="bottom-wrapper">
+    	AAA
+    </div>--> 
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
     > 
-    </shopcart>
+    </shopcart> 
   </div>
 </template>
 
@@ -148,112 +151,118 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-    @import "../../common/stylus/mixin.styl"
-    .goods
-    	width: 100%
-    	display: flex
-    	position: absolute
-    	top: 174px
-    	bottom: 46px
-    	overflow: hidden
-    	.menu-wrapper
-    		flex: 0 0 80px
-    		width: 80px
-    		background:#F4F5F7
-    		.menu-item
-    			display: table
-    			padding: 0 12px
-    			width: 100%
-    			box-sizing: border-box
-    			height: 54px
-    			&.active
-    				background:white
-    			&>span
-    				display: table-cell
-    				vertical-align: middle
-    				font-size: 12px
-    				font-weight: 200
-    				line-height: 16px 
-    				&>em
-    					display: inline-block
-    					width: 12px
-    					height: 12px
-    					font-weight: bold
-    					background: no-repeat
-    					background-size: 14px 14px
-    					background-position: 0 0
-    					vertical-align: top
-    					margin-right: 5px
-    					&.decrease
-    						bg-image("guarantee_2")
-    					&.guarantee
-    						bg-image("guarantee_2")
-    					&.discount
-    						bg-image("discount_2")
-    					&.invoice
-    						bg-image("invoice_2")
-    					&.special
-    						bg-image("special_2") 
-    	.foods-wrapper
-    		flex: 1
-    		// overflow-y:scroll
-    		.food-list
-    			h1
-    				border-left: 3px solid #d9dde1
-    				height: 26px
-    				line-height: 26px
-    				font-size: 12px
-    				color: rgb(147,153,159)
-    				padding-left: 14px
-    				background: #f4f5f7
-    			.food-item
-    				display: flex
-    				padding: 18px
-    				border-1px(#e3e4e6)
-    				.icon
-    					flex 0 0 57px
-    					margin-right: 10px
-    					&>img
-    						width: 57px
-    						height: 57px
-    				.content
-    					flex: 1
-    					.food-name
-    						font-size: 14px
-    						color: rgb(7,17,27)
-    						line-height: 14px
-    						margin: 2px 0 8px 0
-    					.food-desc
-    						margin: 0px 0 8px 0
-    						font-size: 10px
-    						line-height: 14px
-    						color: rgb(147,153,159)
-    				.extra
-    					margin: 0px 0 8px 0
-    					font-size: 10px
-    					line-height: 10px
-    					color: rgb(147,153,159)
-    				.price
-    					font-size: 14px
-    					color: red
-    					font-weight: 700
-    					line-height: 24px
-    					vertical-align: top
-    					em
-    						font-style: normal
-    						font-size: 10px
-    					.old-price
-    						font-size: 10px
-    						color: gray
-    						vertical-align: top
-    						text-decoration: line-through
-					.control-wrapper
-						position:absolute
-						height:20px
-						width:60px
-						bottom:18px
-						right:18px 
-		
+@import "../../common/stylus/mixin.styl"
+.goods
+	width: 100%
+	display: flex
+	position: absolute
+	top: 174px
+	bottom: 46px
+	overflow: hidden 
+	.menu-wrapper
+		flex: 0 0 80px
+		width: 80px
+		background:#F4F5F7
+		.menu-item
+			display: table
+			padding: 0 12px
+			width: 100%
+			box-sizing: border-box
+			height: 54px
+			&.active
+				background:white
+			&>span
+				display: table-cell
+				vertical-align: middle
+				font-size: 12px
+				font-weight: 200
+				line-height: 16px 
+				&>em
+					display: inline-block
+					width: 12px
+					height: 12px
+					font-weight: bold
+					background: no-repeat
+					background-size: 14px 14px
+					background-position: 0 0
+					vertical-align: top
+					margin-right: 5px
+					&.decrease
+						bg-image("guarantee_2")
+					&.guarantee
+						bg-image("guarantee_2")
+					&.discount
+						bg-image("discount_2")
+					&.invoice
+						bg-image("invoice_2")
+					&.special
+						bg-image("special_2") 
+	.foods-wrapper
+		flex: 1 
+		.food-list
+			h1
+				border-left: 3px solid #d9dde1
+				height: 26px
+				line-height: 26px
+				font-size: 12px
+				color: rgb(147,153,159)
+				padding-left: 14px
+				background: #f4f5f7
+			.food-item
+				display: flex
+				padding: 18px
+				border-1px(#e3e4e6)
+				.icon
+					flex 0 0 57px
+					margin-right: 10px
+					&>img
+						width: 57px
+						height: 57px
+				.content
+					flex: 1
+					.food-name
+						font-size: 14px
+						color: rgb(7,17,27)
+						line-height: 14px
+						margin: 2px 0 8px 0 
+					.food-desc
+						margin: 0px 0 8px 0
+						font-size: 10px
+						line-height: 14px
+						color: rgb(147,153,159)
+				.extra
+					margin: 0px 0 8px 0
+					font-size: 10px
+					line-height: 10px
+					color: rgb(147,153,159)
+				.price
+					font-size: 14px
+					color: red
+					font-weight: 700
+					line-height: 24px
+					vertical-align: top
+					em
+						font-style: normal
+						font-size: 10px
+					.old-price
+						font-size: 10px
+						color: gray
+						vertical-align: top
+						text-decoration: line-through
+			.control-wrapper
+				position:absolute
+				height:20px
+				width:60px
+				bottom:18px
+				right:18px 
+	.bottom-wrapper
+		position:fixed
+		height:48px 
+		width:100%
+		top:0px
+		left:0
+		z-index:50
+			
 
 
 

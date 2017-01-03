@@ -91,6 +91,7 @@ export default {
 		height:48px 
 		width:100%
 		bottom:0px
+		left:0
 		z-index:50
 		.content
 			display:flex
@@ -126,9 +127,7 @@ export default {
 							font-size:24px
 							line-height:44px
 							font-size:24px;
-							color:#80858a
-						
-								
+							color:#80858a	
 					.count
 						position:absolute
 						display:inline-block

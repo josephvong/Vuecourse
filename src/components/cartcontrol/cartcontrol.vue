@@ -48,7 +48,7 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-  .cartcontrol
+.cartcontrol
     width:100%
     height:100% 
     position:relative
