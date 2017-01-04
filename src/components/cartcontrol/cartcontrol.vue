@@ -11,14 +11,18 @@
     <div class="cart-increase" v-on:click="addHandle"><i class="icon-plus"></i></div>	
   </div>
 </template>
-<script type="text/ecmascript-6">
-import Vue from "vue" 
+<script type="text/ecmascript-6"> 
+import Vue from "vue"
+
 export default {
   name: 'cartcontrol',
   props:{
   	foodObj:{
   		type:Object
-  	}
+  	},
+    eventHub:{
+      type:Object
+    }
   },
   methods:{
     addHandle(event){
@@ -31,7 +35,7 @@ export default {
       }else{
         this.foodObj.count=this.foodObj.count+1;
       }
-      
+      this.eventHub.$emit('add-dropball', event);  
     },
     subtractHandle(){
         if(!event._constructed){

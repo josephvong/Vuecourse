@@ -34,7 +34,8 @@
 								</span>
 							</div>
 							<div class="control-wrapper">
-								<cartcontrol v-bind:foodObj=food ></cartcontrol>
+								<cartcontrol v-bind:foodObj=food v-bind:eventHub="eventHub"></cartcontrol>
+								<!-- v-on:add-dropball="dropballListent" -->
 							</div>
 						</div>
 					</li>
@@ -48,6 +49,7 @@
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
     > 
     </shopcart> 
+    <dropball v-bind:eventHub="eventHub"></dropball>
   </div>
 </template>
 
@@ -55,6 +57,11 @@
 import BScroll from "better-scroll"
 import shopcart from "components/shopcart/shopcart.vue"
 import cartcontrol from "components/cartcontrol/cartcontrol.vue"
+import dropball from "components/dropball/dropball.vue"
+
+import Vue from "vue"
+let bus= new Vue();
+
 export default {
   name: 'goods',
   props:{
@@ -67,7 +74,8 @@ export default {
   		goods:[],
   		iconClass:["decrease","discount","guarantee","invoice","special"],
   		listHeight:[],
-  		rightSclTop:0,
+  		rightSclTop:0, 
+  		eventHub: new Vue(), // goods内的事件处理器 
   	}
   },
   computed:{
@@ -131,7 +139,7 @@ export default {
   		let targetE=foodList[clickIndex];
   		this.rightSclTop=this.listHeight[clickIndex]; 
   		this.rightScroll.scrollToElement(targetE,300)
-  	}
+  	},
   },
   mounted(){
   	this.$http.get("/api/goods").then((response)=>{
@@ -145,7 +153,8 @@ export default {
   },
   components:{
   	shopcart:shopcart,
-  	cartcontrol:cartcontrol
+  	cartcontrol:cartcontrol,
+  	dropball:dropball
   }
 }
 </script>
@@ -224,7 +233,7 @@ export default {
 						font-size: 14px
 						color: rgb(7,17,27)
 						line-height: 14px
-						margin: 2px 0 8px 0 
+						margin: 2px 0 8px 0
 					.food-desc
 						margin: 0px 0 8px 0
 						font-size: 10px

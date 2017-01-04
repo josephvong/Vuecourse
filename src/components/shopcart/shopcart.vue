@@ -44,42 +44,41 @@ export default {
   	minPrice:{
   		type:Number,
   		default:0
-  	},
-  	 
+  	}, 
   },
   computed:{
   	totalPrice(){
-		let tPrice=0;
-		for(let i=0;i<this.selectedFoods.length;i++){
-			tPrice+=this.selectedFoods[i].price*this.selectedFoods[i].count
-		}
-		return tPrice
-	},
-	totalCount(){
-		let tCount=0;
-		for(let i=0;i<this.selectedFoods.length; i++){
-			tCount+=this.selectedFoods[i].count
-		}
-		return tCount	
-	},
-	payDesc(){
-		if(this.totalPrice===0){
-			return `￥${this.minPrice}元`;
-		}else if(this.totalPrice<this.minPrice){
-			let diff=this.minPrice-this.totalPrice;
-			return `还差￥${diff}元起送`
-		}else{
-			return "去结算";
-		}
-	},
-	payClass(){
-		if(this.totalPrice<this.minPrice){
-			let diff=this.minPrice-this.totalPrice;
-			return "not-enougth"
-		}else{
-			return "enougth"
-		}
-	} 
+			let tPrice=0;
+			for(let i=0;i<this.selectedFoods.length;i++){
+				tPrice+=this.selectedFoods[i].price*this.selectedFoods[i].count
+			}
+			return tPrice
+		},
+		totalCount(){
+			let tCount=0;
+			for(let i=0;i<this.selectedFoods.length; i++){
+				tCount+=this.selectedFoods[i].count
+			}
+			return tCount	
+		},
+		payDesc(){
+			if(this.totalPrice===0){
+				return `￥${this.minPrice}元`;
+			}else if(this.totalPrice<this.minPrice){
+				let diff=this.minPrice-this.totalPrice;
+				return `还差￥${diff}元起送`
+			}else{
+				return "去结算";
+			}
+		},
+		payClass(){
+			if(this.totalPrice<this.minPrice){
+				let diff=this.minPrice-this.totalPrice;
+				return "not-enougth"
+			}else{
+				return "enougth"
+			}
+		} 
   }
   
 }
