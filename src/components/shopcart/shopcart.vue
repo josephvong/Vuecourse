@@ -1,8 +1,8 @@
 <template>
   <div class="shopcart">
-       <div class="content">
+      <div class="content">
       	<div class="content-left">
-      		<div class="logo-wrapper">
+      		<div class="logo-wrapper" v-on:click="listToggle">
       			<div id="LOGO" class="logo" v-bind:class="{active:totalCount>0}">
       				<i class="icon-cart"></is>
       			</div>
@@ -15,17 +15,41 @@
       		</div>
       		<div class="desc">
       			需配送费{{deliveryPrice}}元
-      		</div> 
+      		</div>
       	</div>
-      	<div class="content-right" v-bind:class="payClass"> 
+      	<div class="content-right" v-bind:class="payClass">
       		<div class="pay">
       			{{payDesc}}
-      		</div> 
+      		</div>
       	</div>
+      </div>
+      <div class="list-cover"></div>
+      <div class="shopcart-list" v-show="listShow">
+      		<div class="list-header">
+      			<span class="title">购物车</span>
+      			<span class="empty">清空</span>
+      		</div>
+      		<div class="list-content" ref="cartList">
+						<ul>
+							<li v-for="food in selectedFoods" class="food">
+								<div class="food-info">
+									<div class="name">
+										{{food.name}}
+									</div>
+									<div class="price">￥{{food.price*food.count}}</div>
+								</div>
+								<div class="control-wrapper">
+									<cartcontrol v-bind:foodObj=food></cartcontrol>
+								</div>
+							</li>
+						</ul>
+      		</div>
       </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
+import cartcontrol from "components/cartcontrol/cartcontrol.vue"
+import BScroll from "better-scroll"
 export default {
   name: 'shopcart',
   props:{
@@ -36,7 +60,7 @@ export default {
   				{price:10,count:1}
   			]
   		}
-  	}, 
+  	},
   	deliveryPrice:{
   		type:Number,
   		default:0
@@ -44,7 +68,13 @@ export default {
   	minPrice:{
   		type:Number,
   		default:0
-  	}, 
+  	},
+  },
+  data(){
+  	return {
+  		//listShow:false,
+  		flod:false  // cartList 列表折叠
+  	}
   },
   computed:{
   	totalPrice(){
@@ -59,7 +89,7 @@ export default {
 			for(let i=0;i<this.selectedFoods.length; i++){
 				tCount+=this.selectedFoods[i].count
 			}
-			return tCount	
+			return tCount
 		},
 		payDesc(){
 			if(this.totalPrice===0){
@@ -78,20 +108,50 @@ export default {
 			}else{
 				return "enougth"
 			}
-		} 
+		},
+		listShow(){
+			let isShow=false
+			if(this.flod && this.totalCount>0){
+				isShow=true
+				this.$nextTick(()=>{
+  				this.cartList= new BScroll(this.$refs.cartList,{
+		  			click: true,
+		  		});
+  			})
+			}else{
+				isShow=false
+			}
+  		return isShow
+		}
+  },
+  methods:{
+  	listToggle(){
+  		this.flod=!this.flod;
+  		if(this.totalCount==0){
+  			this.flod=false
+  		}
+  	},
+
+  },
+  components:{
+  	cartcontrol:cartcontrol
+  },
+  mounted(){
+  	// if(this.)
+  	// this.cartListInit()
   }
-  
+
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 	@import "../../common/stylus/mixin.styl"
 	.shopcart
 		position:fixed
-		height:48px 
+		height:48px
 		width:100%
 		bottom:0px
 		left:0
-		z-index:50
+		z-index:20
 		.content
 			display:flex
 			background:#141d27
@@ -112,6 +172,7 @@ export default {
 					vertical-align:top
 					border-radius:50%
 					background:#141d27
+					z-index:21
 					.logo
 						width:100%
 						height:100%
@@ -121,12 +182,12 @@ export default {
 						&.active
 							background:rgba(0,160,220,1)
 						&.active>.icon-cart
-							color:white 
+							color:white
 						.icon-cart
 							font-size:24px
 							line-height:44px
 							font-size:24px;
-							color:#80858a	
+							color:#80858a
 					.count
 						position:absolute
 						display:inline-block
@@ -140,7 +201,8 @@ export default {
 						font-weight:700
 						background-color:rgba(240,20,20,1)
 						color:rgba(255,255,255,1)
-						box-shdow:0 4px 8px 0px rgba(0,0,0,0.4)		
+						box-shdow:0 4px 8px 0px rgba(0,0,0,0.4)
+						z-index:21
 				.price
 					display:inline-block
 					vertical-align:top
@@ -154,14 +216,13 @@ export default {
 					color:rgba(255,255,255,0.4)
 					&.highLight
 						color:rgba(255,255,255,1)
-						
+
 				.desc
 					display:inline-block
 					vertical-align:top
 					line-height:24px
 					margin:12px 0 0 5px
 					font-size:10px
-						
 			.content-right
 				flex:0 0 100px
 				width:100px
@@ -176,5 +237,77 @@ export default {
 				&.enougth
 					background-color:#00b43c
 					color:#fff
-					
+		.list-cover
+			display:none
+			position:fixed
+			top:0
+			bottom:48px
+			width:100%
+			background:red
+			z-index:2
+		.shopcart-list
+			position:absolute
+			bottom:48px
+
+			overflow:hidden
+			width:100%
+			z-index:10
+			.list-header
+				height:40px
+				box-sizing:border-box
+				padding:0 18px
+				background:#f3f5f7
+				&>span
+					line-height:40px
+					font-size:14px
+					color:rgb(7,17,27)
+				.title
+					float:left
+				.empty
+					float:right
+					color: rgb(0,160,220)
+			.list-content
+				background:white
+				padding:0 18px
+				max-height:260px
+				overflow:hidden
+				.food
+					width:100%
+					height:48px
+					display:flex
+					border-bottom:1px solid rgba(1,17,27,0.1)
+					.food-info
+						display:block
+						position:relative
+						height:100%
+						flex:1 1 auto
+						font-size:14px
+						.name
+							position:absolute
+							left:0
+							top:0
+							display:block
+							line-height:48px
+							width:70%
+							height:100%
+							overflow: hidden
+							text-overflow:ellipsis
+							white-space: nowrap
+						.price
+							position:absolute
+							right:0
+							top:0
+							display:block
+							width:30%
+							height:100%
+							line-height:48px
+							text-align:center
+					.control-wrapper
+						flex:0 1 60px
+						height:100%
+						padding-top:12px
+						box-sizing:border-box
+
+
+
 </style>
