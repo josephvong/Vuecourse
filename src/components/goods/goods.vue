@@ -49,15 +49,13 @@
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
     > 
     </shopcart> 
-    <dropball v-bind:eventHub="eventHub"></dropball>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll"
 import shopcart from "components/shopcart/shopcart.vue"
-import cartcontrol from "components/cartcontrol/cartcontrol.vue"
-import dropball from "components/dropball/dropball.vue"
+import cartcontrol from "components/cartcontrol/cartcontrol.vue" 
 
 import Vue from "vue"
 let bus= new Vue();
@@ -128,7 +126,6 @@ export default {
             itemH+=foodList[i].clientHeight
         } 
         this.listHeight=foodHeight;
-        //console.log(this.listHeight);
   	},
   	indexAlert:function(event){  // 左边点击事件
   		if(!event._constructed){
@@ -153,8 +150,7 @@ export default {
   },
   components:{
   	shopcart:shopcart,
-  	cartcontrol:cartcontrol,
-  	dropball:dropball
+  	cartcontrol:cartcontrol, 
   }
 }
 </script>

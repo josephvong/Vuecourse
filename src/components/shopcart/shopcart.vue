@@ -3,7 +3,7 @@
        <div class="content">
       	<div class="content-left">
       		<div class="logo-wrapper">
-      			<div class="logo" v-bind:class="{active:totalCount>0}">
+      			<div id="LOGO" class="logo" v-bind:class="{active:totalCount>0}">
       				<i class="icon-cart"></is>
       			</div>
       			<span class="count" v-show="totalCount">
