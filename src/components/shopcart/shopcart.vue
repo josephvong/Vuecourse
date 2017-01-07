@@ -10,7 +10,7 @@
       				{{totalCount}}
       			</span>
       		</div>
-      		<div class="price" v-bind:class="{highLight:totalPrice>10}">
+      		<div class="price" v-bind:class="{highLight:totalPrice>=10}">
       			￥{{totalPrice}}
       		</div>
       		<div class="desc">
@@ -23,28 +23,32 @@
       		</div>
       	</div>
       </div>
-      <div class="list-cover"></div>
-      <div class="shopcart-list" v-show="listShow">
+      <transition name="coverFade">
+      	<div class="list-cover"  v-show="listShow" v-on:click="listToggle"></div>
+      </transition>
+      <transition name="listFade"> <!---->
+	    <div class="shopcart-list" v-show="listShow">
       		<div class="list-header">
       			<span class="title">购物车</span>
-      			<span class="empty">清空</span>
+      			<span class="empty" v-on:click="empty">清空</span>
       		</div>
       		<div class="list-content" ref="cartList">
-						<ul>
-							<li v-for="food in selectedFoods" class="food">
-								<div class="food-info">
-									<div class="name">
-										{{food.name}}
-									</div>
-									<div class="price">￥{{food.price*food.count}}</div>
-								</div>
-								<div class="control-wrapper">
-									<cartcontrol v-bind:foodObj=food></cartcontrol>
-								</div>
-							</li>
-						</ul>
+				<ul>
+					<li v-for="food in selectedFoods" class="food">
+						<div class="food-info">
+							<div class="name">
+								{{food.name}}
+							</div>
+							<div class="price">￥{{food.price*food.count}}</div>
+						</div>
+						<div class="control-wrapper">
+							<cartcontrol v-bind:foodObj=food></cartcontrol>
+						</div>
+					</li>
+				</ul>
       		</div>
-      </div>
+	    </div>
+      </transition>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -71,74 +75,82 @@ export default {
   	},
   },
   data(){
-  	return {
-  		//listShow:false,
-  		flod:false  // cartList 列表折叠
+  	return { 
+  		fold:false  // cartList 列表折叠
   	}
   },
   computed:{
   	totalPrice(){
-			let tPrice=0;
-			for(let i=0;i<this.selectedFoods.length;i++){
-				tPrice+=this.selectedFoods[i].price*this.selectedFoods[i].count
-			}
-			return tPrice
-		},
-		totalCount(){
-			let tCount=0;
-			for(let i=0;i<this.selectedFoods.length; i++){
-				tCount+=this.selectedFoods[i].count
-			}
-			return tCount
-		},
-		payDesc(){
-			if(this.totalPrice===0){
-				return `￥${this.minPrice}元`;
-			}else if(this.totalPrice<this.minPrice){
-				let diff=this.minPrice-this.totalPrice;
-				return `还差￥${diff}元起送`
-			}else{
-				return "去结算";
-			}
-		},
-		payClass(){
-			if(this.totalPrice<this.minPrice){
-				let diff=this.minPrice-this.totalPrice;
-				return "not-enougth"
-			}else{
-				return "enougth"
-			}
-		},
-		listShow(){
-			let isShow=false
-			if(this.flod && this.totalCount>0){
-				isShow=true
-				this.$nextTick(()=>{
-  				this.cartList= new BScroll(this.$refs.cartList,{
-		  			click: true,
-		  		});
-  			})
-			}else{
-				isShow=false
-			}
-  		return isShow
+		let tPrice=0;
+		for(let i=0;i<this.selectedFoods.length;i++){
+			tPrice+=this.selectedFoods[i].price*this.selectedFoods[i].count
 		}
+		return tPrice
+	},
+	totalCount(){
+		let tCount=0;
+		for(let i=0;i<this.selectedFoods.length; i++){
+			tCount+=this.selectedFoods[i].count
+		}
+		return tCount
+	},
+	payDesc(){
+		if(this.totalPrice===0){
+			return `￥${this.minPrice}元`;
+		}else if(this.totalPrice<this.minPrice){
+			let diff=this.minPrice-this.totalPrice;
+			return `还差￥${diff}元起送`
+		}else{
+			return "去结算";
+		}
+	},
+	payClass(){
+		if(this.totalPrice<this.minPrice){
+			let diff=this.minPrice-this.totalPrice;
+			return "not-enougth"
+		}else{
+			return "enougth"
+		}
+	},
+	listShow(){
+		let isShow
+		if(this.totalCount>0){
+			isShow=this.fold
+			
+		}else{
+			this.fold=false 
+			isShow=false
+		}
+		if(isShow){
+			this.$nextTick(()=>{
+				if(!this.cartList){
+					this.cartList=new BScroll(this.$refs.cartList,{
+						click:true
+					})
+				}else{
+					this.cartList.refresh()
+				} 
+			})
+		}
+		return isShow
+	} 
   },
   methods:{
   	listToggle(){
-  		this.flod=!this.flod;
-  		if(this.totalCount==0){
-  			this.flod=false
+  		if(this.totalCount>0){  
+  			this.fold=!this.fold
   		}
   	},
-
+  	empty(){ 
+  		this.selectedFoods.forEach(function(item){
+  			item.count=0
+  		})
+  	} 
   },
   components:{
   	cartcontrol:cartcontrol
   },
-  mounted(){
-  	// if(this.)
-  	// this.cartListInit()
+  mounted(){ 
   }
 
 }
@@ -158,8 +170,11 @@ export default {
 			font-size:0
 			height:100%
 			color:rgba(255,255,255,0.4)
+			
 			.content-left
 				flex:1
+				background:#141d27
+				z-index:21 
 				.logo-wrapper
 					display:inline-block
 					position:relative;
@@ -214,6 +229,7 @@ export default {
 					font-size:16px
 					font-weight:700
 					color:rgba(255,255,255,0.4)
+					z-index:21
 					&.highLight
 						color:rgba(255,255,255,1)
 
@@ -226,6 +242,7 @@ export default {
 			.content-right
 				flex:0 0 100px
 				width:100px
+				z-index:21
 				.pay
 					height:48px
 					line-height:48px
@@ -238,20 +255,28 @@ export default {
 					background-color:#00b43c
 					color:#fff
 		.list-cover
-			display:none
 			position:fixed
 			top:0
 			bottom:48px
 			width:100%
-			background:red
+			background:rgba(0,0,0,0.4)
 			z-index:2
+			opacity:1
+			&.coverFade-enter-active,&.coverFade-leave-active
+				transition: all .5s
+			&.coverFade-enter,&.coverFade-leave-active
+				opacity:0
 		.shopcart-list
 			position:absolute
 			bottom:48px
-
 			overflow:hidden
 			width:100%
-			z-index:10
+			z-index:5
+			transform:translateY(0%)
+			&.listFade-enter-active,&.listFade-leave-active
+				transition: all .5s
+			&.listFade-enter,&.listFade-leave-active
+				transform:translateY(100%)
 			.list-header
 				height:40px
 				box-sizing:border-box
@@ -307,7 +332,6 @@ export default {
 						height:100%
 						padding-top:12px
 						box-sizing:border-box
-
-
+	
 
 </style>

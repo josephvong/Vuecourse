@@ -4,7 +4,7 @@
       <div ref="dropball" class="dropball" v-show="dropBallShow" ></div>
     </transition>
     <transition name="decreaseFade">
-      <div class="cart-decrease" v-show="!!foodObj.count" v-on:click="subtractHandle">
+      <div class="cart-decrease" v-show="!!foodObj.count" v-on:click.stop="subtractHandle">
           <i class="icon-minus"></i>
       </div>
     </transition>
@@ -13,7 +13,7 @@
         {{foodObj.count}}
       </div>
     </transition>
-    <div class="cart-increase" v-on:click="addHandle">
+    <div class="cart-increase" v-on:click.stop="addHandle">
       <i class="icon-plus"></i>
     </div>
     	

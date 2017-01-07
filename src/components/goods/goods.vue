@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="leftList">
     	<ul class="food-menu" >
-			<li v-for="(item,index) in goods" class="menu-item" v-bind:class="{active:index==activeIndex}" v-bind:index="index" v-on:click="indexAlert($event)">
+			<li v-for="(item,index) in goods" class="menu-item" v-bind:class="{active:index==activeIndex}" v-bind:index="index" v-on:click="leftListClick($event)">
 				<span>
 					 <em v-show="item.type>0" v-bind:class="iconClass[item.type]"></em>{{item.name}}
 				</span>
@@ -14,7 +14,7 @@
     		<li v-for="item in goods" class="food-list" ref="foodList">
     			<h1 class="title">{{item.name}}</h1>
     			<ul>
-					<li v-for="food in item.foods" class="food-item border-1px" >
+					<li v-for="food in item.foods" class="food-item border-1px" v-on:click="pointFood(food,$event)">
 						<div class="icon">
 							<img v-bind:src="food.icon"/>
 						</div>
@@ -48,7 +48,9 @@
     </div>--> 
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
     > 
-    </shopcart> 
+    </shopcart>
+	<!-- <food v-bind:food="chooseFood"></food> -->
+	
   </div>
 </template>
 
@@ -56,7 +58,7 @@
 import BScroll from "better-scroll"
 import shopcart from "components/shopcart/shopcart.vue"
 import cartcontrol from "components/cartcontrol/cartcontrol.vue" 
-
+import food from "components/food/food.vue" 
 import Vue from "vue"
 let bus= new Vue();
 
@@ -127,7 +129,7 @@ export default {
         } 
         this.listHeight=foodHeight;
   	},
-  	indexAlert:function(event){  // 左边点击事件
+  	leftListClick:function(event){  // 左边点击事件
   		if(!event._constructed){
   			return;
   		}
@@ -137,6 +139,12 @@ export default {
   		this.rightSclTop=this.listHeight[clickIndex]; 
   		this.rightScroll.scrollToElement(targetE,300)
   	},
+  	pointFood:function(food,event){
+  		if(!event._constructed){
+          return;
+        }
+  		console.log(food);
+  	}
   },
   mounted(){
   	this.$http.get("/api/goods").then((response)=>{
@@ -150,7 +158,8 @@ export default {
   },
   components:{
   	shopcart:shopcart,
-  	cartcontrol:cartcontrol, 
+  	cartcontrol:cartcontrol,
+  	//food:food 
   }
 }
 </script>
