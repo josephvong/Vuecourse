@@ -42,14 +42,13 @@
     			</ul>
     		</li>
 		</ul>
-    </div>
-    <!-- <div class="bottom-wrapper">
-    	AAA
-    </div>--> 
+    </div> 
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
     > 
     </shopcart>
-	<!-- <food v-bind:food="chooseFood"></food> -->
+    
+	<food v-bind:food="chooseFood" ref="food"></food>
+	
 	
   </div>
 </template>
@@ -75,35 +74,35 @@ export default {
   		iconClass:["decrease","discount","guarantee","invoice","special"],
   		listHeight:[],
   		rightSclTop:0, 
+  		chooseFood:{}, // 选中的 food 数据对象
   		eventHub: new Vue(), // goods内的事件处理器 
   	}
   },
   computed:{
-  		activeIndex(){
-  			for (let i=0 ; i<this.listHeight.length; i++){
-  				let height1= this.listHeight[i];
-  				let height2= this.listHeight[i+1];
-  				if (!height2 || (this.rightSclTop>=height1 && this.rightSclTop<height2)) {
-  					return i;
-  				}
-  			}
-  			return 0;
-  		},
-  		selectedFoods(){
-  			let selFoods=[];
-  			this.goods.forEach((good)=>{
-  				good.foods.forEach((food)=>{
-  					if(food.count){
-  						selFoods.push(food);
-  					}
-  				})
-  			})
-  			return selFoods
-  		}
-
+	activeIndex(){
+		for (let i=0 ; i<this.listHeight.length; i++){
+			let height1= this.listHeight[i];
+			let height2= this.listHeight[i+1];
+			if (!height2 || (this.rightSclTop>=height1 && this.rightSclTop<height2)) {
+				return i;
+			}
+		}
+		return 0;
+	},
+	selectedFoods(){
+		let selFoods=[];
+		this.goods.forEach((good)=>{
+			good.foods.forEach((food)=>{
+				if(food.count){
+					selFoods.push(food);
+				}
+			})
+		})
+		return selFoods
+	}
   },
   methods: {
-  	initScroll() {
+  	initScroll() {   // 滚动菜单初始化
   		this.leftScroll= new BScroll(this.$refs.leftList,{ 
   			click: true,
   			useTransition:true
@@ -119,7 +118,7 @@ export default {
   			this.rightSclTop=Math.abs(Math.round(pos.y)); 
   		})
   	},
-  	getListHeight(){
+  	getListHeight(){	// 获取 右边 每个菜单专栏的高度
   		let foodList=this.$refs.foodList;
   		let itemH=0;
   		let foodHeight=[];
@@ -135,15 +134,16 @@ export default {
   		}
   		let foodList = this.$refs.foodList;
   		let clickIndex=parseInt(event.currentTarget.getAttribute("index"));
-  		let targetE=foodList[clickIndex];
-  		this.rightSclTop=this.listHeight[clickIndex]; 
-  		this.rightScroll.scrollToElement(targetE,300)
+  		let targetE=foodList[clickIndex];// 通过遍历 “getListHeight()”得出的哥哥栏目的高度数组
+  		this.rightSclTop=this.listHeight[clickIndex];  // 让 右侧菜单自动滚动到对应的栏目
+  		this.rightScroll.scrollToElement(targetE,300)  
   	},
-  	pointFood:function(food,event){
+  	pointFood:function(food,event){  // 点击 右侧 菜单 事件函数
   		if(!event._constructed){
           return;
-        }
-  		console.log(food);
+        } 
+        this.chooseFood=food 
+  		this.$refs.food.showFood()
   	}
   },
   mounted(){
@@ -151,15 +151,15 @@ export default {
   		response= response.body
   		this.goods=response.data; 
   		this.$nextTick(function(){
-  			this.initScroll();
-  			this.getListHeight(); 
+  			this.initScroll();		//  通过ajax 获取到数据内容，进行滚动菜单的初始化
+  			this.getListHeight();  //初始化了滚动列表后 获取每个栏目的高度
   		})
   	})
   },
   components:{
   	shopcart:shopcart,
   	cartcontrol:cartcontrol,
-  	//food:food 
+  	food:food 
   }
 }
 </script>
