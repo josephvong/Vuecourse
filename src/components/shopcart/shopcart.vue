@@ -25,8 +25,8 @@
       </div>
       <transition name="coverFade">
       	<div class="list-cover"  v-show="listShow" v-on:click="listToggle"></div>
-      </transition>
-      <transition name="listFade"> <!---->
+       </transition>
+      <transition name="listFade"> 
 	    <div class="shopcart-list" v-show="listShow">
       		<div class="list-header">
       			<span class="title">购物车</span>
@@ -48,7 +48,7 @@
 				</ul>
       		</div>
 	    </div>
-      </transition>
+       </transition>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -123,11 +123,11 @@ export default {
 		}
 		if(isShow){
 			this.$nextTick(()=>{
-				if(!this.cartList){
+				if(!this.cartList){ 
 					this.cartList=new BScroll(this.$refs.cartList,{
 						click:true
 					})
-				}else{
+				}else{ 
 					this.cartList.refresh()
 				} 
 			})
@@ -139,6 +139,7 @@ export default {
   	listToggle(){
   		if(this.totalCount>0){  
   			this.fold=!this.fold
+  			console.log(this.selectedFoods)
   		}
   	},
   	empty(){ 
@@ -149,10 +150,7 @@ export default {
   },
   components:{
   	cartcontrol:cartcontrol
-  },
-  mounted(){ 
   }
-
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -272,7 +270,7 @@ export default {
 			overflow:hidden
 			width:100%
 			z-index:5
-			transform:translateY(0%)
+			transform:translateY(0px)
 			&.listFade-enter-active,&.listFade-leave-active
 				transition: all .5s
 			&.listFade-enter,&.listFade-leave-active
@@ -300,13 +298,15 @@ export default {
 					width:100%
 					height:48px
 					display:flex
+					display:-webkit-flex
 					border-bottom:1px solid rgba(1,17,27,0.1)
 					.food-info
 						display:block
 						position:relative
 						height:100%
 						flex:1 1 auto
-						font-size:14px
+						-webkit-flex:1 1 auto
+						font-size:14px 
 						.name
 							position:absolute
 							left:0
@@ -329,6 +329,7 @@ export default {
 							text-align:center
 					.control-wrapper
 						flex:0 1 60px
+						-webkit-flex:0 1 60px
 						height:100%
 						padding-top:12px
 						box-sizing:border-box

@@ -1,6 +1,6 @@
 <template>
 	<transition name="foodFade">	
-		<div v-show="showFlag" class="food">
+		<div v-show="showFlag" class="point-food">
 		     <div class="image-header">
 		     	<img v-bind:src="food.image"/>
 		     	<div class="back" v-on:click="closeFood">
@@ -18,7 +18,12 @@
 		     		<div class="addCart-wrapper"></div> 
 		     	</div>
 		     </div>
+		     <div class="group" v-show="food.info!=''">
+		     	<h1 class="title">商品介绍</h1>
+		     	<p>{{food.info}}</p>
+		     </div>
 		     <div class="group">
+		     	<h1 class="title">商品评价</h1> 
 		     </div>	 
 		 </div>
 	</transition>
@@ -48,7 +53,7 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-	.food
+	.point-food
 		position: fixed
 		left:0
 		top:0
@@ -57,6 +62,7 @@ export default {
 		background:white
 		z-index:10
 		transform:translateX(0%)
+		overflow-y:scroll
 		&.foodFade-enter-active,&.foodFade-leave-active
 			transition:all 0.5s
 		&.foodFade-enter,&.foodFade-leave-active
@@ -86,13 +92,17 @@ export default {
 			border-top:1px solid rgba(7,17,27,0.1)
 			border-bottom:1px solid rgba(7,17,27,0.1)
 			margin-bottom:16px
-		.content 
-			border-top:0px
 			h1
 				font-size:14px
 				font-weight:700
 				color:rgb(7,17,27)
 				line-height:22px
+			p
+				font-size:12px
+				line-height:24px
+				color:rgb(77,85,93)
+		.content 
+			border-top:0px
 			p
 				font-size:10px
 				line-height:16px
@@ -122,7 +132,11 @@ export default {
 					height:24px
 					width:74px
 					background:blue
-						
+		
+			
+			
+			
+							
 						
 						
 						

@@ -14,8 +14,8 @@
     		<li v-for="item in goods" class="food-list" ref="foodList">
     			<h1 class="title">{{item.name}}</h1>
     			<ul>
-					<li v-for="food in item.foods" class="food-item border-1px" v-on:click="pointFood(food,$event)">
-						<div class="icon">
+					<li v-for="food in item.foods" class="food-item border-1px" >
+						<div class="icon" v-on:click="pointFood(food,$event)">
 							<img v-bind:src="food.icon"/>
 						</div>
 						<div class="content">
@@ -35,7 +35,6 @@
 							</div>
 							<div class="control-wrapper">
 								<cartcontrol v-bind:foodObj=food v-bind:eventHub="eventHub"></cartcontrol>
-								<!-- v-on:add-dropball="dropballListent" -->
 							</div>
 						</div>
 					</li>
@@ -44,8 +43,7 @@
 		</ul>
     </div> 
     <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
-    > 
-    </shopcart>
+    ></shopcart>
     
 	<food v-bind:food="chooseFood" ref="food"></food>
 	

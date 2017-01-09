@@ -1,8 +1,8 @@
 <template>
   <div class="cartcontrol">
-    <transition name="dropBall" v-on:leave="leave" v-on:after-leave="afterLeave" v-on:before-leave="beforeLeave" v-on:leave-cancelled="leaveCancelled">
+    <!-- <transition name="dropBall" v-on:leave="leave" v-on:after-leave="afterLeave" v-on:before-leave="beforeLeave" v-on:leave-cancelled="leaveCancelled">
       <div ref="dropball" class="dropball" v-show="dropBallShow" ></div>
-    </transition>
+    </transition> -->
     <transition name="decreaseFade">
       <div class="cart-decrease" v-show="!!foodObj.count" v-on:click.stop="subtractHandle">
           <i class="icon-minus"></i>
@@ -78,25 +78,21 @@ export default {
           Vue.delete(this.foodObj,"count")
         }
     },
-    beforeLeave(){
-      
+    /*beforeLeave(){  
     },
-    leave(){
-      //this.$refs.dropball.style.transform="translate("+this.dropballDirect.dirX+"px,"+this.dropballDirect.dirY+"px)";
+    leave(){ 
       this.$refs.dropball.style.right=-this.dropballDirect.dirX+"px"
       this.$refs.dropball.style.top=this.dropballDirect.dirY+"px"
       this.isMoving=true
     },
     afterLeave(){
         this.dropBallShow=true;
-        this.isMoving=false
-        //this.$refs.dropball.style.transform="translate(0,0)"
+        this.isMoving=false 
         this.$refs.dropball.style.right=0+"px"
         this.$refs.dropball.style.top=0+"px"
     },
-    leaveCancelled(){
-
-    }
+    leaveCancelled(){ 
+    }*/
   }
 
 
