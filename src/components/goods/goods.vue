@@ -41,21 +41,21 @@
     			</ul>
     		</li>
 		</ul>
-    </div> 
-    <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods=selectedFoods
+    </div>
+    <shopcart v-bind:delivery-price=seller.deliveryPrice  v-bind:min-price=seller.minPrice v-bind:selected-foods="selectedFoods"
     ></shopcart>
-    
+
 	<food v-bind:food="chooseFood" ref="food"></food>
-	
-	
+
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll"
 import shopcart from "components/shopcart/shopcart.vue"
-import cartcontrol from "components/cartcontrol/cartcontrol.vue" 
-import food from "components/food/food.vue" 
+import cartcontrol from "components/cartcontrol/cartcontrol.vue"
+import food from "components/food/food.vue"
 import Vue from "vue"
 let bus= new Vue();
 
@@ -71,9 +71,9 @@ export default {
   		goods:[],
   		iconClass:["decrease","discount","guarantee","invoice","special"],
   		listHeight:[],
-  		rightSclTop:0, 
+  		rightSclTop:0,
   		chooseFood:{}, // 选中的 food 数据对象
-  		eventHub: new Vue(), // goods内的事件处理器 
+  		eventHub: new Vue(), // goods内的事件处理器
   	}
   },
   computed:{
@@ -101,7 +101,7 @@ export default {
   },
   methods: {
   	initScroll() {   // 滚动菜单初始化
-  		this.leftScroll= new BScroll(this.$refs.leftList,{ 
+  		this.leftScroll= new BScroll(this.$refs.leftList,{
   			click: true,
   			useTransition:true
   		});
@@ -113,7 +113,7 @@ export default {
   		});
 
   		this.rightScroll.on("scroll",(pos)=>{
-  			this.rightSclTop=Math.abs(Math.round(pos.y)); 
+  			this.rightSclTop=Math.abs(Math.round(pos.y));
   		})
   	},
   	getListHeight(){	// 获取 右边 每个菜单专栏的高度
@@ -123,7 +123,7 @@ export default {
         for(let i=0; i<foodList.length;i++){
             foodHeight.push(itemH);
             itemH+=foodList[i].clientHeight
-        } 
+        }
         this.listHeight=foodHeight;
   	},
   	leftListClick:function(event){  // 左边点击事件
@@ -134,20 +134,20 @@ export default {
   		let clickIndex=parseInt(event.currentTarget.getAttribute("index"));
   		let targetE=foodList[clickIndex];// 通过遍历 “getListHeight()”得出的哥哥栏目的高度数组
   		this.rightSclTop=this.listHeight[clickIndex];  // 让 右侧菜单自动滚动到对应的栏目
-  		this.rightScroll.scrollToElement(targetE,300)  
+  		this.rightScroll.scrollToElement(targetE,300)
   	},
   	pointFood:function(food,event){  // 点击 右侧 菜单 事件函数
   		if(!event._constructed){
           return;
-        } 
-        this.chooseFood=food 
+        }
+      this.chooseFood=food
   		this.$refs.food.showFood()
   	}
   },
   mounted(){
   	this.$http.get("/api/goods").then((response)=>{
   		response= response.body
-  		this.goods=response.data; 
+  		this.goods=response.data;
   		this.$nextTick(function(){
   			this.initScroll();		//  通过ajax 获取到数据内容，进行滚动菜单的初始化
   			this.getListHeight();  //初始化了滚动列表后 获取每个栏目的高度
@@ -157,7 +157,7 @@ export default {
   components:{
   	shopcart:shopcart,
   	cartcontrol:cartcontrol,
-  	food:food 
+  	food:food
   }
 }
 </script>
@@ -170,7 +170,7 @@ export default {
 	position: absolute
 	top: 174px
 	bottom: 46px
-	overflow: hidden 
+	overflow: hidden
 	.menu-wrapper
 		flex: 0 0 80px
 		width: 80px
@@ -188,7 +188,7 @@ export default {
 				vertical-align: middle
 				font-size: 12px
 				font-weight: 200
-				line-height: 16px 
+				line-height: 16px
 				&>em
 					display: inline-block
 					width: 12px
@@ -208,9 +208,9 @@ export default {
 					&.invoice
 						bg-image("invoice_2")
 					&.special
-						bg-image("special_2") 
+						bg-image("special_2")
 	.foods-wrapper
-		flex: 1 
+		flex: 1
 		.food-list
 			h1
 				border-left: 3px solid #d9dde1
@@ -266,15 +266,15 @@ export default {
 				height:20px
 				width:60px
 				bottom:18px
-				right:18px 
+				right:18px
 	.bottom-wrapper
 		position:fixed
-		height:48px 
+		height:48px
 		width:100%
 		top:0px
 		left:0
 		z-index:50
-			
+
 
 
 

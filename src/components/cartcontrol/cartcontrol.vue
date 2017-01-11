@@ -16,10 +16,10 @@
     <div class="cart-increase" v-on:click.stop="addHandle">
       <i class="icon-plus"></i>
     </div>
-    	
+
   </div>
 </template>
-<script type="text/ecmascript-6"> 
+<script type="text/ecmascript-6">
 import Vue from "vue"
 
 export default {
@@ -34,6 +34,7 @@ export default {
   },
   data(){
     return {
+      /* 下面属性均为 小球动画 （暂时弃用）
       dropBallShow:true,
       isMoving:false,
       start:{x:0, y:0},
@@ -41,16 +42,16 @@ export default {
         x:document.getElementById("LOGO").getBoundingClientRect().left+document.getElementById("LOGO").offsetWidth/2,
         y:document.getElementById("LOGO").getBoundingClientRect().top+document.getElementById("LOGO").offsetHeight/2
       },
-      isTranslate:true
+      isTranslate:true*/
     }
   },
   computed:{
-    dropballDirect(){
+    /*dropballDirect(){
       let dir={dirX:0,dirY:0}
       dir.dirX=this.terminal.x-this.start.x;
       dir.dirY=this.terminal.y-this.start.y;
       return dir
-    }
+    }*/
   },
   methods:{
     addHandle(event){
@@ -59,13 +60,13 @@ export default {
       }
       if(!this.isMoving){
         if(!this.foodObj.count){
-           Vue.set(this.foodObj,"count",1) 
+           Vue.set(this.foodObj,"count",1)
         }else{
           this.foodObj.count=this.foodObj.count+1;
         }
-        this.dropBallShow=false 
-        this.start.x=event.currentTarget.getBoundingClientRect().left;
-        this.start.y=event.currentTarget.getBoundingClientRect().top; 
+        //this.dropBallShow=false
+        //this.start.x=event.currentTarget.getBoundingClientRect().left;
+        //this.start.y=event.currentTarget.getBoundingClientRect().top;
 
       }
     },
@@ -78,20 +79,20 @@ export default {
           Vue.delete(this.foodObj,"count")
         }
     },
-    /*beforeLeave(){  
+    /*beforeLeave(){
     },
-    leave(){ 
+    leave(){
       this.$refs.dropball.style.right=-this.dropballDirect.dirX+"px"
       this.$refs.dropball.style.top=this.dropballDirect.dirY+"px"
       this.isMoving=true
     },
     afterLeave(){
         this.dropBallShow=true;
-        this.isMoving=false 
+        this.isMoving=false
         this.$refs.dropball.style.right=0+"px"
         this.$refs.dropball.style.top=0+"px"
     },
-    leaveCancelled(){ 
+    leaveCancelled(){
     }*/
   }
 
@@ -102,7 +103,7 @@ export default {
 @import "../../common/stylus/mixin.styl"
 .cartcontrol
     width:100%
-    height:100% 
+    height:100%
     position:relative
     &>div
       position:absolute
@@ -116,7 +117,7 @@ export default {
         line-height:20px
         display:block
         height:20px
-        font-size:10px   
+        font-size:10px
     .cart-increase
       background:#00A0DC
       color:white
@@ -124,14 +125,14 @@ export default {
       z-index:21
     .cart-decrease
       box-sizing:border-box
-      border:1px solid #00A0DC 
+      border:1px solid #00A0DC
       border-radius:50%
       color:#00A0DC
       right:0
       transform:translateX(-40px)
-    .cart-count 
+    .cart-count
       color:gray
-      left:20px 
+      left:20px
       font-size:12px
     .dropball
         position:absolute
@@ -144,18 +145,18 @@ export default {
         display:block
         z-index:20
     .decreaseFade-enter-active,.decreaseFade-leave-active
-      transition: all .5s 
+      transition: all .5s
     .decreaseFade-enter,.decreaseFade-leave-active
       opacity:0
       transform:translateX(0px)
       transform:rotate(-180deg)
     .dropBall-leave-active
-      transition: right 0.3s , top 0.6s 
+      transition: right 0.3s , top 0.6s
     .dropBall-leave
       //transform:translate(0,0)
       right:0
       top:0
-      
 
-			
+
+
 </style>

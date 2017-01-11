@@ -1,13 +1,14 @@
 <template>
-	<transition name="foodFade">	
-		<div v-show="showFlag" class="point-food">
-		     <div class="image-header">
+	<transition name="foodFade">
+		<div v-show="showFlag" class="point-food" ref="pointFood">
+			<div class="content-wrap" >
+		    <div class="image-header">
 		     	<img v-bind:src="food.image"/>
 		     	<div class="back" v-on:click="closeFood">
 		     		<span class="icon-arrow-left"> </span>
 		     	</div>
-		     </div>
-		     <div class="group content">
+		    </div>
+		    <div class="group content">
 		     	<h1 class="title">{{food.name}}</h1>
 		     	<p>月售{{food.sellCount}}份 &nbsp; &nbsp;好评率{{food.rating}}%</p>
 		     	<div class="holder">
@@ -15,20 +16,31 @@
 		     			<strong>￥{{food.price}}</strong>
 		     			<span class="old-price" v-show="food.oldPrice!=''">￥{{food.oldPrice}}</span>
 		     		</div>
-		     		<div class="addCart-wrapper"></div> 
+		     		<transition name="addCartFade">
+			     		<div class="addCart-wrapper" v-show="!food.count" v-on:click="addFood">
+			     			加入购物车
+			     		</div>
+		     		</transition>
+		     		<div class="control-wrapper" v-show="food.count">
+							<cartcontrol v-bind:foodObj="food"  ref="cartControl"></cartcontrol>
+						</div>
 		     	</div>
-		     </div>
-		     <div class="group" v-show="food.info!=''">
+		    </div>
+		    <div class="group" v-show="food.info!=''">
 		     	<h1 class="title">商品介绍</h1>
 		     	<p>{{food.info}}</p>
-		     </div>
-		     <div class="group">
-		     	<h1 class="title">商品评价</h1> 
-		     </div>	 
-		 </div>
+		    </div>
+		    <div class="group">
+		     	<h1 class="title">商品评价</h1>
+
+		    </div>
+	    </div>
+		</div>
 	</transition>
 </template>
 <script type="text/ecmascript-6">
+import cartcontrol from "components/cartcontrol/cartcontrol.vue"
+import BScroll from "better-scroll"
 export default {
   name: 'food',
   props:{
@@ -38,18 +50,33 @@ export default {
   },
   data(){
   	return {
-  		showFlag:false
+  		showFlag:false,
+  		isAdd:false
   	}
   },
   methods:{
   	showFood(){
   		this.showFlag=true;
-  		this.$nextTick(()=>{console.log(this.food)})
+  		this.$nextTick(()=>{
+  			if(!this.pointScroll){
+					this.pointScroll=new BScroll(this.$refs.pointFood,{
+						click:true
+					})
+  			}else{
+  				this.pointScroll.refresh()
+  			}
+  		})
   	},
   	closeFood(){
   		this.showFlag=false;
+  	},
+  	addFood(event){
+  		this.$refs.cartControl.addHandle(event)
   	}
-  }, 
+  },
+  components:{
+  	cartcontrol:cartcontrol
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -62,7 +89,7 @@ export default {
 		background:white
 		z-index:10
 		transform:translateX(0%)
-		overflow-y:scroll
+		overflow:hidden
 		&.foodFade-enter-active,&.foodFade-leave-active
 			transition:all 0.5s
 		&.foodFade-enter,&.foodFade-leave-active
@@ -71,7 +98,7 @@ export default {
 			position:relative
 			width:100%
 			height:0
-			padding-top: 70% 
+			padding-top: 70%
 			img
 				position:absolute
 				top:0
@@ -101,20 +128,20 @@ export default {
 				font-size:12px
 				line-height:24px
 				color:rgb(77,85,93)
-		.content 
+		.content
 			border-top:0px
 			p
 				font-size:10px
 				line-height:16px
 				color:rgb(7,17,27)
 			.holder
-				padding:9px 
-				height:24px 
+				position:relative
+				padding:0 9px
+				height:24px
 				.price
 					display:inline-block
-					float:left
 					height:24px
-					line-height:24px 
+					line-height:24px
 					strong
 						font-size:14px
 						color:red
@@ -127,19 +154,37 @@ export default {
 						color:gray
 						text-decoration: line-through
 				.addCart-wrapper
+					position:absolute
 					display:inline-block
-					float:right
+					right:0
+					top:0
 					height:24px
-					width:74px
-					background:blue
-		
-			
-			
-			
-							
-						
-						
-						
-					
-							
+					line-height:24px
+					font-size:12px
+					color:white
+					padding:0 10px
+					border-radius:12px
+					opacity:1
+					background: rgb(0,160,220)
+				&>.addCartFade-enter-active , &>.addCartFade-leave-active
+					transition:all 0.7s
+				&>.addCartFade-enter , &>.addCartFade-leave-active
+					opacity:0
+				.control-wrapper
+					position:absolute
+					display:block
+					right:0
+					top:0
+					height:20px
+					width:60px
+
+
+
+
+
+
+
+
+
+
 </style>
