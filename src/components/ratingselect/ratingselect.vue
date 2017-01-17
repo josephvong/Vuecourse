@@ -1,6 +1,10 @@
 <template>
   <div class="ratingselect">
-     this is a ratings
+     <ul class="rating-tab">
+       <li class="all">全部<span></span></li>
+       <li class="like">推荐<span></span></li>
+       <li class="dislike">吐槽<span></span></li>
+     </ul>  
   </div>
 </template>
 
@@ -26,7 +30,7 @@ export default {
   		default:false
   	},
   	desc:{
-  		type:Object
+  		type:Object,
   		default(){
   			return {
   				all:'全部',
@@ -40,5 +44,23 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-
+  .ratingselect
+    margin-bottom:30px
+    .rating-tab
+      width:100%;
+      li
+        display:inline-block
+        padding:8px 12px
+        margin-right:8px
+        font-size:12px  
+        &.all
+          color:white
+          background:rgba(0,160,220,1) 
+        &.like
+          color:rgb(77,85,93)
+          background:rgba(0,160,220,0.2)
+        &.dislike
+          color:rgb(77,85,93)
+          background:rgba(77,85,93,0.2)  
+        
 </style>

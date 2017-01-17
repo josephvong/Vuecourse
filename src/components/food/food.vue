@@ -22,8 +22,8 @@
 			     		</div>
 		     		</transition>
 		     		<div class="control-wrapper" v-show="food.count">
-							<cartcontrol v-bind:foodObj="food"  ref="cartControl"></cartcontrol>
-						</div>
+						<cartcontrol v-bind:foodObj="food"  ref="cartControl"></cartcontrol>
+					</div>
 		     	</div>
 		    </div>
 		    <div class="group" v-show="food.info!=''">
@@ -32,7 +32,7 @@
 		    </div>
 		    <div class="group">
 		     	<h1 class="title">商品评价</h1>
-
+				<ratingselect ></ratingselect>
 		    </div>
 	    </div>
 		</div>
@@ -40,6 +40,7 @@
 </template>
 <script type="text/ecmascript-6">
 import cartcontrol from "components/cartcontrol/cartcontrol.vue"
+import ratingselect from "components/ratingselect/ratingselect.vue"
 import BScroll from "better-scroll"
 export default {
   name: 'food',
@@ -75,7 +76,8 @@ export default {
   	}
   },
   components:{
-  	cartcontrol:cartcontrol
+  	cartcontrol:cartcontrol,
+  	ratingselect:ratingselect
   }
 }
 </script>
