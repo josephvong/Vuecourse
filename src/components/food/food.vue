@@ -32,7 +32,7 @@
 		    </div>
 		    <div class="group">
 		     	<h1 class="title">商品评价</h1>
-				<ratingselect ></ratingselect>
+				<ratingselect v-bind:desc="ratingDesc" v-bind:ratings="food.ratings" ></ratingselect>
 		    </div>
 	    </div>
 		</div>
@@ -51,8 +51,13 @@ export default {
   },
   data(){
   	return {
-  		showFlag:false,
-  		isAdd:false
+  		showFlag:false, // 控制是否显示
+  		isAdd:false,
+  		ratingDesc:{
+  			'all':'全部',
+  			'positive':'推荐',
+            'negative':'吐槽'
+  		}
   	}
   },
   methods:{
