@@ -4,10 +4,10 @@
        <li class="all">{{desc.all}}<span>{{typeNum.all}}</span></li>
        <li class="like">{{desc.positive}}<span>{{typeNum.positive}}</span></li>
        <li class="dislike">{{desc.negative}}<span>{{typeNum.negative}}</span></li>
-     </ul> 
-     <div class="show-all">
-        <span class="icon-checkbox-checked" v-bind:class="{checked:!isShowAll}" v-on:click="isShowAll=!isShowAll"></span>只看有内容的评价
-     </div> 
+     </ul>
+     <div class="show-all" v-on:click="toggleShowall">
+        <span class="icon-checkbox-checked" v-bind:class="{checked:!isShowAll}" ></span>只看有内容的评价
+     </div>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
   		type:Number,
   		default: ALL  //默认为显示全部评价 （用ALL 常量显示）
   	},
-  	onlyContent:{  
+  	onlyContent:{
   		type:Boolean,
   		default:false
   	},
@@ -56,7 +56,7 @@ export default {
         positive:0,
         negative:0
       }
-      if(this.ratings.length>0){ 
+      if(this.ratings.length>0){
         for (var i = 0 ; i < this.ratings.length; i++) {
           if(this.ratings[i].rateType==0){
             type.positive=type.positive+1
@@ -71,10 +71,17 @@ export default {
     }
   },
   methods:{
-
-  }, 
+    toggleShowall(){
+      //alert("A")
+      //console.log(event);
+      if(!event._constructed){
+        return
+      }
+      this.isShowAll=!this.isShowAll
+    }
+  },
   mounted(){
-    
+
   }
 }
 </script>
@@ -88,16 +95,16 @@ export default {
         display:inline-block
         padding:8px 12px
         margin-right:8px
-        font-size:12px  
+        font-size:12px
         &.all
           color:white
-          background:rgba(0,160,220,1) 
+          background:rgba(0,160,220,1)
         &.like
           color:rgb(77,85,93)
           background:rgba(0,160,220,0.2)
         &.dislike
           color:rgb(77,85,93)
-          background:rgba(77,85,93,0.2)  
+          background:rgba(77,85,93,0.2)
     .show-all
       padding:12px 0
       font-size:12px
@@ -109,6 +116,6 @@ export default {
         color: rgb(147,153,159)
         margin-right:8px
         &.checked
-          color: #6AF248  
+          color: #6AF248
 </style>
 

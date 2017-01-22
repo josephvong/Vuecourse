@@ -56,7 +56,7 @@ export default {
   		ratingDesc:{
   			'all':'全部',
   			'positive':'推荐',
-            'negative':'吐槽'
+        'negative':'吐槽'
   		}
   	}
   },

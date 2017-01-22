@@ -1,0 +1,1 @@
+export const TRY_MUTATION="TRY_MUTATION"
