@@ -30,9 +30,10 @@
 		     	<h1 class="title">商品介绍</h1>
 		     	<p>{{food.info}}</p>
 		    </div>
-		    <div class="group">
+		    <div class="group food-rating">
 		     	<h1 class="title">商品评价</h1>
-				<ratingselect v-bind:desc="ratingDesc" v-bind:ratings="food.ratings" ></ratingselect>
+					<ratingselect v-bind:desc="ratingDesc" v-bind:ratings="food.ratings"></ratingselect>
+					<ratinglist v-bind:ratings="food.ratings"></ratinglist>
 		    </div>
 	    </div>
 		</div>
@@ -41,7 +42,9 @@
 <script type="text/ecmascript-6">
 import cartcontrol from "components/cartcontrol/cartcontrol.vue"
 import ratingselect from "components/ratingselect/ratingselect.vue"
+import ratinglist from "components/ratinglist/ratinglist.vue"
 import BScroll from "better-scroll"
+import Vue from "vue"
 export default {
   name: 'food',
   props:{
@@ -57,7 +60,8 @@ export default {
   			'all':'全部',
   			'positive':'推荐',
         'negative':'吐槽'
-  		}
+  		},
+  		eventHub:new Vue()
   	}
   },
   methods:{
@@ -82,7 +86,8 @@ export default {
   },
   components:{
   	cartcontrol:cartcontrol,
-  	ratingselect:ratingselect
+  	ratingselect:ratingselect,
+  	ratinglist:ratinglist
   }
 }
 </script>
@@ -106,7 +111,7 @@ export default {
 			width:100%
 			height:0
 			padding-top: 70%
-			img
+			&>img
 				position:absolute
 				top:0
 				lef:0
@@ -184,6 +189,17 @@ export default {
 					top:0
 					height:20px
 					width:60px
+
+
+
+
+
+
+
+
+
+
+
 
 
 

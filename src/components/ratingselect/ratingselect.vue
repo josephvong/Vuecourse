@@ -88,7 +88,7 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
   .ratingselect
-    margin:15px 0
+    margin:15px 0 0 0
     .rating-tab
       width:100%;
       li

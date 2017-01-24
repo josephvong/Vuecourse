@@ -57,7 +57,6 @@ import shopcart from "components/shopcart/shopcart.vue"
 import cartcontrol from "components/cartcontrol/cartcontrol.vue"
 import food from "components/food/food.vue"
 import Vue from "vue"
-let bus= new Vue();
 
 export default {
   name: 'goods',
