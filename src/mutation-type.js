@@ -1,1 +1,3 @@
-export const TRY_MUTATION="TRY_MUTATION"
+export const type{
+	TRY_MUTATION:"TRY_MUTATION"
+}

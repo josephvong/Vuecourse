@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {TRY_MUTATION} from './mutation-type.js'
+import type from './mutation-type.js'
 
 Vue.use(Vuex);
 
@@ -28,7 +28,7 @@ let store=new Vuex.Store({
 		increment(state,n){
 			state.count+=n;
 		},
-		[TRY_MUTATION](state){
+		[type.TRY_MUTATION](state){
 			state.count2+=2
 		}
 	}
