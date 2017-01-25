@@ -1,8 +1,10 @@
 <template>
   <ul class="rating-list">
-    <li v-for="item in ratings">
+    <li v-for="item in dateFormat" v-show="!isShowContent||item.text" >
       <div class="info">
-        <div class="date"><span>{{item.rateTime}}</span><span></span></div>
+        <div class="date">
+        <span>{{ item.dateFmt }}</span><span>{{item.timeFmt}}</span> <span>{{selectType}}</span>
+        </div>
         <div class="user-info">
           <span>{{item.username}}</span>
           <div class="img-wrap">
@@ -18,8 +20,28 @@
     </li>
   </ul>
 
-</template>
+</template> 
 <script type="text/ecmascript-6">
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)){
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+const POSITIVE=0; // 赞 常量
+const NEGATIVE=1; // 弹 常量
+const ALL = 2;    // 全部 常量 
 
 export default {
   name: 'ratinglist',
@@ -29,21 +51,62 @@ export default {
       default(){
         return []
       }
+    },  
+    isShowContent:{
+      type:Boolean,
+      default:false
+    },
+    selectType:{
+      type:Number,
+      default:2
+    },
+    eventHub:{     //事件集合
+      type:Object,
     }
   },
   data(){
     return {
-
+      //ratingDataList:this.ratings
     }
   },
+  computed:{
+    showList(){
+      if(this.selectType==0){
+        return this.ratings.filter(function(item){
+            return item.rateType==0
+        })
+      }else if(this.selectType==1){
+        return this.ratings.filter(function(item){
+            return item.rateType==1
+        })
+      }else{
+        return this.ratings
+      }
+    },
+    dateFormat(){
+      var arr=[];
+      this.showList.forEach( function(elem){
+        var oDate= new Date(elem.rateTime);
+        var obj={dateFmt:oDate.Format("yyyy-MM-dd"),timeFmt:oDate.Format("hh:mm")}
+        Object.assign(obj,elem);
+        arr.push(obj);
+      })
+      return arr
+    },
+    
+  },
+  methods:{
+    
+  },
   mounted(){
-
-  }
+    
+  },
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .rating-list
     border-top:1px solid rgba(7,17,27,0.1)
+    margin-bottom:20px
     &>li
       border-bottom:1px solid rgba(7,17,27,0.1)
       padding:8px 0

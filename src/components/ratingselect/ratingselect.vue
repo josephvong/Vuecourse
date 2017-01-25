@@ -1,12 +1,18 @@
 <template>
   <div class="ratingselect">
      <ul class="rating-tab">
-       <li class="all">{{desc.all}}<span>{{typeNum.all}}</span></li>
-       <li class="like">{{desc.positive}}<span>{{typeNum.positive}}</span></li>
-       <li class="dislike">{{desc.negative}}<span>{{typeNum.negative}}</span></li>
+      <li class="all" v-on:click="selectType(2)">
+          {{desc.all}}<span>{{typeNum.all}}</span>
+      </li>
+      <li class="like" v-on:click="selectType(0)">
+        {{desc.positive}}<span>{{typeNum.positive}}</span>
+      </li>
+      <li class="dislike" v-on:click="selectType(1)">
+        {{desc.negative}}<span>{{typeNum.negative}}</span>
+      </li>
      </ul>
-     <div class="show-all" v-on:click="toggleShowall">
-        <span class="icon-checkbox-checked" v-bind:class="{checked:!isShowAll}" ></span>只看有内容的评价
+     <div class="show-all" v-on:click="toggleShowContent">
+        <span class="icon-checkbox-checked" v-bind:class="{checked:isShowContent}" ></span>只看有内容的评价
      </div>
   </div>
 </template>
@@ -24,14 +30,6 @@ export default {
   			return []
   		}
   	},
-  	selectType:{  // 首次显示评价的类型
-  		type:Number,
-  		default: ALL  //默认为显示全部评价 （用ALL 常量显示）
-  	},
-  	onlyContent:{
-  		type:Boolean,
-  		default:false
-  	},
   	desc:{
   		type:Object,
   		default(){
@@ -40,17 +38,22 @@ export default {
   				positive:'满意',
           negative:'不满意',
   			}
-  		}
-  	}
+  		}  // 选择器描述
+  	},
+    isShowContent:{
+      type:Boolean,
+      default:false
+    },
+    eventHub:{  // 事件集合
+      type:Object,
+    }
   },
   data(){
     return{
-      isShowAll:true
     }
   },
   computed:{
     typeNum:function(){
-
       let type={
         all:this.ratings.length,
         positive:0,
@@ -71,13 +74,14 @@ export default {
     }
   },
   methods:{
-    toggleShowall(){
-      //alert("A")
-      //console.log(event);
-      if(!event._constructed){
-        return
-      }
-      this.isShowAll=!this.isShowAll
+    toggleShowContent(){ 
+      
+      this.eventHub.$emit("toggleShowContent");
+    },
+
+    selectType(N){
+      if(!event._constructed){return}
+      this.eventHub.$emit("selectType",N)
     }
   },
   mounted(){

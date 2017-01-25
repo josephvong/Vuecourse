@@ -58,7 +58,7 @@ export default {
       if(!event._constructed){
         return;
       }
-      if(!this.isMoving){
+      //if(!this.isMoving){
         if(!this.foodObj.count){
            Vue.set(this.foodObj,"count",1)
         }else{
@@ -68,7 +68,7 @@ export default {
         //this.start.x=event.currentTarget.getBoundingClientRect().left;
         //this.start.y=event.currentTarget.getBoundingClientRect().top;
 
-      }
+      //}
     },
     subtractHandle(){
         if(!event._constructed){

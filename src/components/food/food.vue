@@ -2,40 +2,53 @@
 	<transition name="foodFade">
 		<div v-show="showFlag" class="point-food" ref="pointFood">
 			<div class="content-wrap" >
-		    <div class="image-header">
-		     	<img v-bind:src="food.image"/>
-		     	<div class="back" v-on:click="closeFood">
-		     		<span class="icon-arrow-left"> </span>
-		     	</div>
-		    </div>
-		    <div class="group content">
-		     	<h1 class="title">{{food.name}}</h1>
-		     	<p>月售{{food.sellCount}}份 &nbsp; &nbsp;好评率{{food.rating}}%</p>
-		     	<div class="holder">
-		     		<div class="price">
-		     			<strong>￥{{food.price}}</strong>
-		     			<span class="old-price" v-show="food.oldPrice!=''">￥{{food.oldPrice}}</span>
-		     		</div>
-		     		<transition name="addCartFade">
-			     		<div class="addCart-wrapper" v-show="!food.count" v-on:click="addFood">
-			     			加入购物车
+			    <div class="image-header">
+			     	<img v-bind:src="food.image"/>
+			     	<div class="back" v-on:click="closeFood">
+			     		<span class="icon-arrow-left"> </span>
+			     	</div>
+			    </div>
+			    <div class="group content">
+			     	<h1 class="title">{{food.name}}</h1>
+			     	<p>月售{{food.sellCount}}份 &nbsp; &nbsp;好评率{{food.rating}}%</p>
+			     	<div class="holder">
+			     		<div class="price">
+			     			<strong>￥{{food.price}}</strong>
+			     			<span class="old-price" v-show="food.oldPrice!=''">￥{{food.oldPrice}}</span>
 			     		</div>
-		     		</transition>
-		     		<div class="control-wrapper" v-show="food.count">
-						<cartcontrol v-bind:foodObj="food"  ref="cartControl"></cartcontrol>
-					</div>
-		     	</div>
+			     		<transition name="addCartFade">
+				     		<div class="addCart-wrapper" v-show="!food.count" v-on:click="addFood">
+				     			加入购物车
+				     		</div>
+			     		</transition>
+			     		<div class="control-wrapper" v-show="food.count">
+							<cartcontrol v-bind:foodObj="food"  ref="cartControl"></cartcontrol>
+						</div>
+			     	</div>
+			    </div>
+			    <div class="group" v-show="food.info!=''">
+			     	<h1 class="title">商品介绍</h1>
+			     	<p>{{food.info}}</p>
+			    </div>
+			    <div class="group food-rating">
+			     	<h1 class="title">商品评价</h1>
+					<ratingselect 
+						v-bind:desc="ratingDesc" 
+						v-bind:ratings="food.ratings" 
+						v-bind:eventHub="eventHub" 
+						v-bind:isShowContent="isShowContent"
+					>
+					</ratingselect>
+					<ratinglist 
+						v-bind:ratings="food.ratings" 
+						v-bind:eventHub="eventHub" 
+						v-bind:selectType="selectType"
+						v-bind:isShowContent="isShowContent"
+					>		
+					</ratinglist>
+					 
+			    </div>
 		    </div>
-		    <div class="group" v-show="food.info!=''">
-		     	<h1 class="title">商品介绍</h1>
-		     	<p>{{food.info}}</p>
-		    </div>
-		    <div class="group food-rating">
-		     	<h1 class="title">商品评价</h1>
-					<ratingselect v-bind:desc="ratingDesc" v-bind:ratings="food.ratings"></ratingselect>
-					<ratinglist v-bind:ratings="food.ratings"></ratinglist>
-		    </div>
-	    </div>
 		</div>
 	</transition>
 </template>
@@ -55,34 +68,62 @@ export default {
   data(){
   	return {
   		showFlag:false, // 控制是否显示
-  		isAdd:false,
+  		isAdd:false,	// 是否已经添加到购物车	
   		ratingDesc:{
   			'all':'全部',
   			'positive':'推荐',
-        'negative':'吐槽'
+        	'negative':'吐槽'
   		},
+  		selectType:2,
+  		isShowContent:false, // 是否只看有内容评论
   		eventHub:new Vue()
   	}
+  },
+  computed:{
+  	 
   },
   methods:{
   	showFood(){
   		this.showFlag=true;
   		this.$nextTick(()=>{
   			if(!this.pointScroll){
-					this.pointScroll=new BScroll(this.$refs.pointFood,{
-						click:true
-					})
+				this.pointScroll=new BScroll(this.$refs.pointFood,{
+					click:true
+				})
   			}else{
   				this.pointScroll.refresh()
   			}
-  		})
+  		})  //显示 食品 简介
   	},
-  	closeFood(){
+
+  	closeFood(){   //关闭 食品 简介
   		this.showFlag=false;
   	},
-  	addFood(event){
+
+  	addFood(event){  // 添加 食品到购物车
   		this.$refs.cartControl.addHandle(event)
-  	}
+  	},
+
+  	toggleShowContent(){	//  切换是否只看有内容评论 的函数
+  		this.isShowContent=!this.isShowContent;
+  		this.$nextTick(()=>{
+  			this.pointScroll.refresh()
+  		}) 
+  	},
+  	ratingFilter(N){
+  	  this.selectType=N ;
+      this.$nextTick(()=>{
+        this.pointScroll.refresh()
+      }) 
+    } 
+  },
+  mounted(){
+  	this.eventHub.$on("toggleShowContent",()=>{  // 监听 评论选择器
+  		this.toggleShowContent()
+  	})
+  	this.eventHub.$on("selectType",(arg)=>{
+        this.ratingFilter(arg);
+    }) 
   },
   components:{
   	cartcontrol:cartcontrol,
