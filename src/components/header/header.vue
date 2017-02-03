@@ -31,7 +31,10 @@
         <div class="detail-wrapper clearfix">
             <div class="detail-main"> 
                 <h1 class="store-title">{{seller.name}}</h1>
-                <star v-bind:score="seller.score" v-bind:size="48" ></star> 
+                <div class="star-wrap">
+                    <star v-bind:score="seller.score" v-bind:size="48" ></star>
+                </div>
+                 
                 <div class="group coupon-info">
                     <div class="group-title">
                         <span></span> <h3>优惠信息</h3> <span></span>
@@ -235,6 +238,9 @@ export default {
                     font-weight:700
                     color:rgba(255,255,255,1)
                     line-height:16px
+                .star-wrap
+                    margin:20px 0
+                    text-align:center    
                 .group
                     width:100%
                     padding:0 12px

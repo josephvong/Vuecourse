@@ -80,7 +80,7 @@ export default {
     },
 
     selectType(N){
-      if(!event._constructed){return}
+      //if(!event._constructed){return} 
       this.eventHub.$emit("selectType",N)
     }
   },

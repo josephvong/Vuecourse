@@ -230,25 +230,6 @@ export default {
 					top:0
 					height:20px
 					width:60px
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+					
 
 </style>
